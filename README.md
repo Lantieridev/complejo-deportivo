@@ -1,91 +1,62 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/pBlBpuZk)
-# 🧩 Trabajo Práctico Integrador
+# 🏟️ Complejo Deportivo | Sports Facility Booking API
 
-## 🎯 Objetivos
+![C#](https://img.shields.io/badge/C%23-.NET_8-purple?style=for-the-badge&logo=csharp)
+![EF Core](https://img.shields.io/badge/EF_Core-8.0-blue?style=for-the-badge)
+![JWT](https://img.shields.io/badge/Auth-JWT-black?style=for-the-badge&logo=jsonwebtokens)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![CI](https://img.shields.io/github/actions/workflow/status/Lantieridev/complejo-deportivo/ci.yml?branch=main&style=for-the-badge&label=CI)
 
-El siguiente trabajo práctico tiene por objetivos:
-
-- Integrar los conocimientos y habilidades prácticas adquiridas en las unidades de la asignatura.  
-- Reforzar las destrezas necesarias para resolver una situación problemática utilizando la **programación orientada a objetos con C#**, incorporando conceptos de **POO avanzada** y de **aplicaciones cliente-servidor** mediante el desarrollo de una **Web API**.  
-- Modelar una abstracción de datos sobre el dominio propuesto aplicando **patrones de diseño** y **buenas prácticas de programación**.  
-- Diseñar e integrar una **interfaz Web** utilizando las tecnologías **HTML, CSS y JavaScript** que consuma una capa de servicios publicada como **WebAPI**.
+A booking system for sports facility complexes: courts, availability, multi-court reservations with time-based pricing, and a role-based admin dashboard. Built as a Web API + Repository pattern layered backend (ASP.NET Core 8 + EF Core), with a static HTML/JS frontend consuming it.
 
 ---
 
-## 🧠 Enunciado
+## Features
 
-Tomando como dominio de problema los dominios analizados en la asignatura **Laboratorio de Computación II** o bien uno de los **6 ejercicios modelos** enunciados en la guía `TUP_2C_PII_GUI_U1_POOAvanzada`, se pide:
+- **Multi-court booking** — reserve several courts in a single transaction, hour-by-hour availability checks per court, differential pricing (e.g. floodlit hours after 19:00).
+- **Role-based access** — `Cliente` / `Empleado` / `Admin`, enforced per endpoint and per record (a client can only see/cancel their own reservations, validated against their JWT).
+- **JWT authentication** with BCrypt password hashing.
+- **Admin dashboard** — revenue KPIs, reservation status breakdown, top-10 courts by bookings, top-10 clients by spend, filterable by date range and complex.
+- **Full ABMC (CRUD)** for complexes, courts, court types, clients, employees, and user accounts.
 
-### 📁 Estructura de la solución
+## Tech Stack
 
-Construir una solución con **Visual Studio** que contenga **dos proyectos principales**:
+- **ASP.NET Core 8** Web API
+- **Entity Framework Core 8** (SQL Server)
+- **JWT Bearer** authentication, **BCrypt.Net** for password hashing
+- **Swashbuckle / Swagger** for API exploration
+- Layered architecture: `Controllers` → `Services` → `Repositories` → `Models`, with `DTOs` at the API boundary
 
----
+## API Overview
 
-### 🔹 Proyecto 1: Librería de código (Class Library)
+See [endpoints.md](endpoints.md) for the full endpoint reference (permissions, request bodies, and behavior notes per endpoint). Highlights:
 
-- Modelar la **lógica de la aplicación** solicitada.  
-- Incluir tanto el **acceso a datos** como las **reglas de negocio** del caso analizado.
+| Module | Endpoints |
+|---|---|
+| Auth | `POST /api/auth/login`, `POST /api/account/register` |
+| Reservations | `GET /api/reserva/complejos`, `GET /api/reserva/disponibilidad`, `POST /api/reserva`, `PUT /api/reserva/cancelar` |
+| Dashboard | `GET /api/dashboard` (KPIs, charts, rankings) |
+| Admin (ABMC) | Clients, employees, courts, court types, complexes, user accounts |
 
----
+## Setup
 
-### 🔹 Proyecto 2: Aplicación Web (Frontend)
+```powershell
+# 1. Restore and create the database
+dotnet restore
+dotnet ef database update   # or run database/create-database.sql directly in SQL Server
 
-Implementar el modelo de objetos diseñado. La interfaz gráfica deberá incluir:
+# 2. Set your own JWT signing key (don't use the placeholder in appsettings.json)
+dotnet user-secrets set "Jwt:Key" "<your-own-random-secret>"
 
-#### 🏠 Inicio
-- Página de inicio con una descripción corta del trabajo.  
-- Opción para **ingresar al sitio como usuario autenticado**.
+# 3. Run
+dotnet run
+```
 
-#### 🔐 Login
-- Página de login que **valide las credenciales del usuario** al correr la aplicación.
+The frontend (`Front/`) is static HTML/JS — open `Front/index.html` directly or serve it from any static file server, pointed at the running API.
 
-#### 💻 Página principal (usuario logueado)
-Debe contener un **menú de opciones** con los siguientes ítems:
+## Academic Context
 
-- **Soporte:** con un subítem que permita acceder al **ABMC** (Alta, Baja, Modificación, Consulta) de la tabla de soporte (dependerá del caso).  
-- **Transacción:** con un subítem que permita consultar la **tabla maestro** y realizar operaciones de **alta, modificación y baja**.  
-- **Dashboard:** que muestre información **sumarizada** relacionada con la transacción desde la página principal.  
-- **Acerca de:** con un subítem que muestre la **información de los responsables** del desarrollo de la solución.
-
----
-
-### 🔹 Proyecto 3: Web API
-
-- Exponer todos los **servicios necesarios** para que el proyecto Web funcione correctamente.  
-
----
-
-### 🗄️ Modelo de Datos
-
-- Generar un **Modelo E-R** para crear la base de datos.  
-- Incluir al menos una **tabla de usuarios** para autenticación.  
-- Configurar las **dependencias necesarias** entre los proyectos dentro de la solución.
+Developed as the final integrative assignment (TPI) for Programación II at UTN FRC — object-oriented design, layered architecture, a Web API consumed by a web client, and JWT-based auth were the core requirements. Cleaned up for portfolio presentation: removed a stray debug file, moved the raw DB creation script into `database/`, and replaced a hardcoded JWT signing key with a placeholder.
 
 ---
 
-## 🌐 Repositorio
-
-- Subir el proyecto completo a un **repositorio público** en **GitHub**.  
-
----
-
-## ⭐ Puntos adicionales
-
-- Uso de **JWT (JSON Web Token)** para autenticación y autorización de usuarios.  
-- Presentación de un **video explicativo** que documente las funcionalidades expuestas en el proyecto.
-
----
-
-## 📅 Condiciones de entrega
-
-- Trabajo **grupal**, con un **máximo de 6 integrantes**.  
-- Compartir una **URL del repositorio GitHub** donde se pueda acceder a la solución.  
-- La **conformación de los grupos** y el **dominio del problema** serán acordados con los docentes.  
-- **Plazo máximo de entrega:** las **dos últimas semanas de clases**, en los horarios habituales de cada curso.  
-- En instancia de **recuperatorios**, se podrá presentar una **segunda oportunidad** en caso de no haber aprobado en la primera instancia.  
-- Las consultas podrán realizarse **durante las clases restantes** en los horarios habituales.
-
----
-
-## 💪 ¡Éxito a todos!
+*Developed by [Martin Lantieri](https://github.com/Lantieridev) - 2026*

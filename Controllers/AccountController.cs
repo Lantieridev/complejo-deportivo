@@ -42,18 +42,6 @@ namespace complejoDeportivo.Controllers
             }
         }
 
-		[HttpGet("tuqui")]
-		public string Tuqui()
-		{
-			return "Tuqui";
-		}
-
-		[HttpPost("tuqui")]
-		public string TPuqui([FromBody] Truqui le)
-		{
-			return le.tongo;
-		}
-
         [HttpPost("register-empleado")]
         [AllowAnonymous]
         public async Task<ActionResult<UsuarioDTO>> RegisterEmpleado([FromBody] RegisterClienteDTO dto)

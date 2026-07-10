@@ -4,7 +4,6 @@ using complejoDeportivo.Models;
 using complejoDeportivo.Repositories.Implementations;
 using complejoDeportivo.Repositories.Interfaces;
 using complejoDeportivo.Services.Interfaces;
-using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 
 namespace complejoDeportivo.Services.Implementations
