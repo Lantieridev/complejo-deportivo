@@ -25,27 +25,27 @@ namespace complejoDeportivo.Controllers
 
         [HttpGet("complejos")]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<ComplejoDTO>> GetComplejos()
+        public async Task<ActionResult<IEnumerable<ComplejoDTO>>> GetComplejos()
         {
-            var complejos = _reservaService.ListarComplejos();
+            var complejos = await _reservaService.ListarComplejos();
             return Ok(complejos);
         }
 
         [HttpGet("canchas/{complejoId}")]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<CanchaDTO>> GetCanchasPorComplejo(int complejoId)
+        public async Task<ActionResult<IEnumerable<CanchaDTO>>> GetCanchasPorComplejo(int complejoId)
         {
-            var canchas = _reservaService.ListarCanchasPorComplejo(complejoId);
+            var canchas = await _reservaService.ListarCanchasPorComplejo(complejoId);
             return Ok(canchas);
         }
 
         [HttpGet("disponibilidad")]
         [AllowAnonymous]
-        public ActionResult<IEnumerable<HorarioLibreDTO>> GetHorariosDisponibles(
+        public async Task<ActionResult<IEnumerable<HorarioLibreDTO>>> GetHorariosDisponibles(
             [FromQuery] int canchaId,
             [FromQuery] DateOnly fecha)
         {
-            var horarios = _reservaService.ObtenerHorariosDisponiblesCancha(canchaId, fecha);
+            var horarios = await _reservaService.ObtenerHorariosDisponiblesCancha(canchaId, fecha);
             return Ok(horarios);
         }
 

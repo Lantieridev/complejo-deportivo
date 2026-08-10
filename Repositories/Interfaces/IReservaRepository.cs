@@ -7,21 +7,21 @@ namespace complejoDeportivo.Repositories
 {
     public interface IReservaRepository
     {
-        Reserva ObtenerReservaPorId(int reservaId);
-        Task<List<Reserva>> ObtenerReservasPorCliente(int clienteId); 
+        Task<Reserva> ObtenerReservaPorIdAsync(int reservaId);
+        Task<List<Reserva>> ObtenerReservasPorCliente(int clienteId);
         void AgregarReserva(Reserva reserva);
         void AgregarDetalle(DetalleReserva detalle);
         Task<Reserva> CrearReservaConDetallesAsync(Reserva reserva, List<DetalleReserva> detalles);
-        string ObtenerNombreCancha(int canchaId);
-        bool ExisteReservaSuperpuesta(int canchaId, DateOnly fecha, TimeOnly inicio, TimeOnly fin);
-        bool ExisteBloqueo(int canchaId, DateOnly fecha, TimeOnly inicio, TimeOnly fin);
-        Tarifa ObtenerTarifaVigente(int canchaId, DateOnly fecha, TimeOnly hora); 
+        Task<string> ObtenerNombreCanchaAsync(int canchaId);
+        Task<bool> ExisteReservaSuperpuestaAsync(int canchaId, DateOnly fecha, TimeOnly inicio, TimeOnly fin);
+        Task<bool> ExisteBloqueoAsync(int canchaId, DateOnly fecha, TimeOnly inicio, TimeOnly fin);
+        Task<Tarifa> ObtenerTarifaVigenteAsync(int canchaId, DateOnly fecha, TimeOnly hora);
         Task<List<HorarioOcupadoDTO>> ObtenerHorariosOcupadosAsync(List<int> canchaIds, DateOnly fecha);
         Task<List<Tarifa>> ObtenerTarifasPorFechaAsync(List<int> canchaIds, DateOnly fecha);
-        List<ComplejoDTO> ObtenerComplejos();
-        List<CanchaDTO> ObtenerCanchasPorComplejo(int complejoId);
-        List<HorarioLibreDTO> ObtenerHorariosDisponiblesCancha(int canchaId, DateOnly fecha, TimeOnly apertura, TimeOnly cierre);
-        Task GuardarAsync(); 
-        List<DisponibilidadCanchaDTO> ObtenerTurnosDisponibles(int canchaId, DateOnly date, TimeOnly apertura, TimeOnly cierre);
+        Task<List<ComplejoDTO>> ObtenerComplejosAsync();
+        Task<List<CanchaDTO>> ObtenerCanchasPorComplejoAsync(int complejoId);
+        Task<List<HorarioLibreDTO>> ObtenerHorariosDisponiblesCanchaAsync(int canchaId, DateOnly fecha, TimeOnly apertura, TimeOnly cierre);
+        Task GuardarAsync();
+        Task<List<DisponibilidadCanchaDTO>> ObtenerTurnosDisponiblesAsync(int canchaId, DateOnly date, TimeOnly apertura, TimeOnly cierre);
     }
 }
