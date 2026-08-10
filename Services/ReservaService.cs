@@ -19,9 +19,9 @@ namespace complejoDeportivo.Services
             _repo = repo;
         }
 
-        public List<DisponibilidadCanchaDTO> ObtenerTurnosDisponibles(int canchaId, DateOnly fecha)
+        public async Task<List<DisponibilidadCanchaDTO>> ObtenerTurnosDisponibles(int canchaId, DateOnly fecha)
         {
-            return _repo.ObtenerTurnosDisponibles(canchaId, fecha, _apertura, _cierre);
+            return await _repo.ObtenerTurnosDisponiblesAsync(canchaId, fecha, _apertura, _cierre);
         }
 
         public async Task<ReservaDTO> CrearReserva(CrearReservaDTO dto)
@@ -89,13 +89,17 @@ namespace complejoDeportivo.Services
 
             await _repo.CrearReservaConDetallesAsync(reserva, detalles);
 
-            var detallesDto = detallesParaCrear.Select(d => new DetalleReservaDTO
+            var detallesDto = new List<DetalleReservaDTO>();
+            foreach (var d in detallesParaCrear)
             {
-                CanchaId = d.CanchaId,
-                NombreCancha = _repo.ObtenerNombreCancha(d.CanchaId),
-                Subtotal = d.Subtotal,
-                CantidadHoras = d.CantidadHoras
-            }).ToList();
+                detallesDto.Add(new DetalleReservaDTO
+                {
+                    CanchaId = d.CanchaId,
+                    NombreCancha = await _repo.ObtenerNombreCanchaAsync(d.CanchaId),
+                    Subtotal = d.Subtotal,
+                    CantidadHoras = d.CantidadHoras
+                });
+            }
 
             return new ReservaDTO
             {
@@ -138,7 +142,7 @@ namespace complejoDeportivo.Services
 
         public async Task<bool> CancelarReserva(CancelarReservaDTO dto)
         {
-            var reserva = _repo.ObtenerReservaPorId(dto.ReservaId);
+            var reserva = await _repo.ObtenerReservaPorIdAsync(dto.ReservaId);
             if (reserva == null || reserva.ClienteId != dto.ClienteId) return false;
 
             if (reserva.EstadoReservaId != 1) 
@@ -155,19 +159,19 @@ namespace complejoDeportivo.Services
             return true;
         }
 
-        public List<ComplejoDTO> ListarComplejos()
+        public async Task<List<ComplejoDTO>> ListarComplejos()
         {
-            return _repo.ObtenerComplejos();
+            return await _repo.ObtenerComplejosAsync();
         }
 
-        public List<CanchaDTO> ListarCanchasPorComplejo(int complejoId)
+        public async Task<List<CanchaDTO>> ListarCanchasPorComplejo(int complejoId)
         {
-            return _repo.ObtenerCanchasPorComplejo(complejoId);
+            return await _repo.ObtenerCanchasPorComplejoAsync(complejoId);
         }
 
-        public List<HorarioLibreDTO> ObtenerHorariosDisponiblesCancha(int canchaId, DateOnly fecha)
+        public async Task<List<HorarioLibreDTO>> ObtenerHorariosDisponiblesCancha(int canchaId, DateOnly fecha)
         {
-            return _repo.ObtenerHorariosDisponiblesCancha(canchaId, fecha, _apertura, _cierre);
+            return await _repo.ObtenerHorariosDisponiblesCanchaAsync(canchaId, fecha, _apertura, _cierre);
         }
     }
 }
