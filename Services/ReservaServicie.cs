@@ -1,4 +1,4 @@
-﻿using complejoDeportivo.DTOs;
+using complejoDeportivo.DTOs;
 using complejoDeportivo.Models;
 using complejoDeportivo.Repositories;
 using Microsoft.EntityFrameworkCore; 
@@ -36,26 +36,34 @@ namespace complejoDeportivo.Services
             if (horas.TotalHours < 1 || horas.TotalHours % 1 != 0)
                 throw new Exception("Las reservas deben ser en bloques de 1 hora.");
 
+            var canchaIdsUnicas = dto.CanchaIds.Distinct().ToList();
+
+            var horariosOcupados = await _repo.ObtenerHorariosOcupadosAsync(canchaIdsUnicas, dto.Fecha);
+            var tarifas = await _repo.ObtenerTarifasPorFechaAsync(canchaIdsUnicas, dto.Fecha);
+
             decimal total = 0;
             var detallesParaCrear = new List<(int CanchaId, Tarifa Tarifa, int CantidadHoras, decimal Subtotal)>();
 
-            foreach (var canchaId in dto.CanchaIds.Distinct())
+            foreach (var canchaId in canchaIdsUnicas)
             {
                 decimal subtotalCancha = 0;
                 var h = dto.HoraInicio;
+
+                var ocupadosCancha = horariosOcupados.Where(o => o.CanchaId == canchaId).ToList();
+                var tarifasCancha = tarifas.Where(t => t.CanchaId == canchaId).ToList();
+
                 while (h < dto.HoraFin)
                 {
                     var fin = h.AddHours(1);
-                    if (_repo.ExisteReservaSuperpuesta(canchaId, dto.Fecha, h, fin)
-                        || _repo.ExisteBloqueo(canchaId, dto.Fecha, h, fin))
+                    if (ocupadosCancha.Any(o => o.HoraInicio < fin && o.HoraFin > h))
                         throw new Exception($"Horario ocupado en cancha ID {canchaId}: {h} - {fin}");
 
-                    var tarifa = _repo.ObtenerTarifaVigente(canchaId, dto.Fecha, h);
+                    var tarifa = ReservaRepository.ObtenerTarifaVigenteEnMemoria(tarifasCancha, canchaId, dto.Fecha, h);
                     subtotalCancha += tarifa.Precio;
                     h = fin;
                 }
 
-                var tarifaReferencia = _repo.ObtenerTarifaVigente(canchaId, dto.Fecha, dto.HoraInicio);
+                var tarifaReferencia = ReservaRepository.ObtenerTarifaVigenteEnMemoria(tarifasCancha, canchaId, dto.Fecha, dto.HoraInicio);
                 detallesParaCrear.Add((canchaId, tarifaReferencia, (int)horas.TotalHours, subtotalCancha));
                 total += subtotalCancha;
             }
