@@ -1,0 +1,13 @@
+using ComplejoDeportivo.Domain;
+
+namespace ComplejoDeportivo.Application.Repositories
+{
+    public interface IComplejoRepository
+    {
+        Task<IEnumerable<Complejo>> GetAllAsync(string? searchTerm = null);
+        Task<Complejo?> GetByIdAsync(int id);
+        Task<Complejo> CreateAsync(Complejo complejo, Direccion direccion);
+        Task<bool> UpdateAsync(Complejo complejo, Direccion direccion);
+        Task<bool> DeleteAsync(int id);
+    }
+}

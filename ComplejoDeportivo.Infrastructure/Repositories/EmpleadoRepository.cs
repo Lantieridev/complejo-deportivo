@@ -1,0 +1,74 @@
+using ComplejoDeportivo.Infrastructure.Persistence;
+using ComplejoDeportivo.Domain;
+using ComplejoDeportivo.Application.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace ComplejoDeportivo.Infrastructure.Repositories
+{
+    public class EmpleadoRepository : IEmpleadoRepository
+    {
+        private readonly ComplejoDeportivoContext _context;
+
+        public EmpleadoRepository(ComplejoDeportivoContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<Empleado>> GetAllAsync(string? searchTerm = null)
+        {
+            var query = _context.Empleados.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                var lowerTerm = searchTerm.ToLower().Trim();
+                query = query.Where(e =>
+                    e.Nombre.ToLower().Contains(lowerTerm) ||
+                    e.Apellido.ToLower().Contains(lowerTerm) ||
+                    (e.Nombre + " " + e.Apellido).ToLower().Contains(lowerTerm) ||
+                    e.Cargo.ToLower().Contains(lowerTerm)
+                );
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<Empleado?> GetByIdAsync(int id)
+        {
+            return await _context.Empleados.FindAsync(id);
+        }
+
+        public async Task<Empleado?> GetByEmailAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email)) return null;
+            return await _context.Empleados.FirstOrDefaultAsync(e => e.Email != null && e.Email.ToLower() == email.ToLower());
+        }
+
+        public async Task<Empleado> CreateAsync(Empleado empleado)
+        {
+            _context.Empleados.Add(empleado);
+            await _context.SaveChangesAsync();
+            return empleado;
+        }
+
+        public async Task<bool> UpdateAsync(Empleado empleado)
+        {
+            _context.Entry(empleado).State = EntityState.Modified;
+            _context.Entry(empleado).Property(p => p.FechaIngreso).IsModified = false;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var empleado = await _context.Empleados.FindAsync(id);
+            if (empleado == null)
+            {
+                return false;
+            }
+
+            _context.Empleados.Remove(empleado);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+    }
+}
