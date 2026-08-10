@@ -1,25 +1,22 @@
 using complejoDeportivo.DTOs;
 using complejoDeportivo.Models;
 using complejoDeportivo.Repositories;
-using Microsoft.EntityFrameworkCore; 
 using System.Threading.Tasks; 
 using System.Linq; 
 using System.Collections.Generic; 
-using System; // Agregado
+using System; 
 
 namespace complejoDeportivo.Services
 {
     public class ReservaServicie : IReservaServicie
     {
         private readonly IReservaRepository _repo;
-        private readonly ComplejoDeportivoContext _context; 
         private readonly TimeOnly _apertura = new TimeOnly(8, 0, 0);
         private readonly TimeOnly _cierre = new TimeOnly(23, 0, 0);
 
-        public ReservaServicie(IReservaRepository repo, ComplejoDeportivoContext context) 
+        public ReservaServicie(IReservaRepository repo) 
         {
             _repo = repo;
-            _context = context; 
         }
 
         public List<DisponibilidadCanchaDTO> ObtenerTurnosDisponibles(int canchaId, DateOnly fecha)
@@ -68,73 +65,50 @@ namespace complejoDeportivo.Services
                 total += subtotalCancha;
             }
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
+            var reserva = new Reserva
             {
-                var reserva = new Reserva
-                {
-                    ClienteId = dto.ClienteId,
-                    Fecha = dto.Fecha,
-                    HoraInicio = dto.HoraInicio,
-                    HoraFin = dto.HoraFin,
-                    EstadoReservaId = 1, // 1 = Confirmada
-                    Ambito = dto.Ambito,
-                    FechaCreacion = DateTime.Now,
-                    Total = total
-                };
+                ClienteId = dto.ClienteId,
+                Fecha = dto.Fecha,
+                HoraInicio = dto.HoraInicio,
+                HoraFin = dto.HoraFin,
+                EstadoReservaId = 1, // 1 = Confirmada
+                Ambito = dto.Ambito,
+                FechaCreacion = DateTime.Now,
+                Total = total
+            };
 
-                _repo.AgregarReserva(reserva);
-                await _repo.GuardarAsync(); 
-
-                foreach (var detalleInfo in detallesParaCrear)
-                {
-                    var detalle = new DetalleReserva
-                    {
-                        ReservaId = reserva.ReservaId,
-                        CanchaId = detalleInfo.CanchaId,
-                        TarifaHoraId = detalleInfo.Tarifa.TarifaId,
-                        CantidadHoras = detalleInfo.CantidadHoras,
-                        Descuento = 0,
-                        Recargo = 0,
-                        Subtotal = detalleInfo.Subtotal
-                    };
-                    _repo.AgregarDetalle(detalle);
-                }
-                
-                await _repo.GuardarAsync(); 
-                await transaction.CommitAsync();
-
-                var canchasMap = (await _context.Canchas
-                    .Where(c => canchaIdsUnicas.Contains(c.CanchaId))
-                    .ToListAsync())
-                    .ToDictionary(c => c.CanchaId, c => c.Nombre);
-
-                var detallesDto = detallesParaCrear.Select(d => new DetalleReservaDTO
-                {
-                    CanchaId = d.CanchaId,
-                    NombreCancha = canchasMap.TryGetValue(d.CanchaId, out var nombre) ? nombre : "N/A",
-                    Subtotal = d.Subtotal,
-                    CantidadHoras = d.CantidadHoras
-                }).ToList();
-
-                return new ReservaDTO
-                {
-                    ReservaId = reserva.ReservaId,
-                    ClienteId = reserva.ClienteId,
-                    Fecha = reserva.Fecha,
-                    HoraInicio = reserva.HoraInicio,
-                    HoraFin = reserva.HoraFin,
-                    Total = reserva.Total,
-                    Estado = "Confirmada", 
-                    FechaCreacion = reserva.FechaCreacion,
-                    Detalles = detallesDto
-                };
-            }
-            catch (Exception)
+            var detalles = detallesParaCrear.Select(detalleInfo => new DetalleReserva
             {
-                await transaction.RollbackAsync();
-                throw; 
-            }
+                CanchaId = detalleInfo.CanchaId,
+                TarifaHoraId = detalleInfo.Tarifa.TarifaId,
+                CantidadHoras = detalleInfo.CantidadHoras,
+                Descuento = 0,
+                Recargo = 0,
+                Subtotal = detalleInfo.Subtotal
+            }).ToList();
+
+            await _repo.CrearReservaConDetallesAsync(reserva, detalles);
+
+            var detallesDto = detallesParaCrear.Select(d => new DetalleReservaDTO
+            {
+                CanchaId = d.CanchaId,
+                NombreCancha = _repo.ObtenerNombreCancha(d.CanchaId),
+                Subtotal = d.Subtotal,
+                CantidadHoras = d.CantidadHoras
+            }).ToList();
+
+            return new ReservaDTO
+            {
+                ReservaId = reserva.ReservaId,
+                ClienteId = reserva.ClienteId,
+                Fecha = reserva.Fecha,
+                HoraInicio = reserva.HoraInicio,
+                HoraFin = reserva.HoraFin,
+                Total = reserva.Total,
+                Estado = "Confirmada", 
+                FechaCreacion = reserva.FechaCreacion,
+                Detalles = detallesDto
+            };
         }
 
         public async Task<List<ReservaDTO>> ListarReservasCliente(int clienteId)

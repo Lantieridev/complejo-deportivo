@@ -198,6 +198,36 @@ namespace complejoDeportivo.Repositories
         {
             _contexto.DetalleReservas.Add(detalle);
         }
+
+        public async Task<Reserva> CrearReservaConDetallesAsync(Reserva reserva, List<DetalleReserva> detalles)
+        {
+            using var transaction = await _contexto.Database.BeginTransactionAsync();
+            try
+            {
+                _contexto.Reservas.Add(reserva);
+                await _contexto.SaveChangesAsync();
+
+                foreach (var detalle in detalles)
+                {
+                    detalle.ReservaId = reserva.ReservaId;
+                    _contexto.DetalleReservas.Add(detalle);
+                }
+
+                await _contexto.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return reserva;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public string ObtenerNombreCancha(int canchaId)
+        {
+            return _contexto.Canchas.Find(canchaId)?.Nombre ?? "N/A";
+        }
         public List<ComplejoDTO> ObtenerComplejos()
         {
             return _contexto.Complejos
