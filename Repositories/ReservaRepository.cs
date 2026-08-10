@@ -1,4 +1,4 @@
-﻿using complejoDeportivo.DTOs;
+using complejoDeportivo.DTOs;
 using complejoDeportivo.Models;
 using Microsoft.EntityFrameworkCore; 
 using System.Threading.Tasks; 
@@ -11,7 +11,7 @@ namespace complejoDeportivo.Repositories
     public class ReservaRepository : IReservaRepository
     {
         private readonly ComplejoDeportivoContext _contexto;
-        private readonly TimeOnly _horaLuz = new TimeOnly(19, 0, 0); // Hora a la que entra la tarifa nocturna
+        private static readonly TimeOnly _horaLuz = new TimeOnly(19, 0, 0); // Hora a la que entra la tarifa nocturna
 
         public ReservaRepository(ComplejoDeportivoContext contexto)
         {
@@ -63,6 +63,74 @@ namespace complejoDeportivo.Repositories
                     && b.Fecha == fecha
                     && b.HoraInicio < fin
                     && b.HoraFin > inicio);
+        }
+
+        public async Task<List<HorarioOcupadoDTO>> ObtenerHorariosOcupadosAsync(List<int> canchaIds, DateOnly fecha)
+        {
+            var reservas = from r in _contexto.Reservas
+                           from d in r.DetalleReservas
+                           where r.Fecha == fecha && canchaIds.Contains(d.CanchaId)
+                           select new HorarioOcupadoDTO
+                           {
+                               CanchaId = d.CanchaId,
+                               HoraInicio = r.HoraInicio,
+                               HoraFin = r.HoraFin
+                           };
+
+            var bloqueos = from b in _contexto.BloqueoCanchas
+                           where b.Fecha == fecha && canchaIds.Contains(b.CanchaId)
+                           select new HorarioOcupadoDTO
+                           {
+                               CanchaId = b.CanchaId,
+                               HoraInicio = b.HoraInicio,
+                               HoraFin = b.HoraFin
+                           };
+
+            return await reservas.Concat(bloqueos).ToListAsync();
+        }
+
+        public async Task<List<Tarifa>> ObtenerTarifasPorFechaAsync(List<int> canchaIds, DateOnly fecha)
+        {
+            return await _contexto.Tarifas
+                .Where(t => canchaIds.Contains(t.CanchaId) && t.FechaVigencia <= fecha)
+                .ToListAsync();
+        }
+
+        public static Tarifa ObtenerTarifaVigenteEnMemoria(IEnumerable<Tarifa> tarifas, int canchaId, DateOnly fecha, TimeOnly hora)
+        {
+            bool requiereLuz = hora >= _horaLuz;
+
+            var tarifa = tarifas
+                .Where(t => t.CanchaId == canchaId 
+                            && t.EsActual 
+                            && t.ContratoLuz == requiereLuz 
+                            && t.FechaVigencia <= fecha)
+                .OrderByDescending(t => t.FechaVigencia)
+                .FirstOrDefault();
+
+            if (tarifa == null && requiereLuz)
+            {
+                tarifa = tarifas
+                    .Where(t => t.CanchaId == canchaId 
+                                && t.EsActual 
+                                && t.ContratoLuz == false 
+                                && t.FechaVigencia <= fecha)
+                    .OrderByDescending(t => t.FechaVigencia)
+                    .FirstOrDefault();
+            }
+
+            if (tarifa == null)
+            {
+                var fallback = tarifas
+                    .Where(t => t.CanchaId == canchaId && t.FechaVigencia <= fecha)
+                    .OrderByDescending(t => t.FechaVigencia)
+                    .FirstOrDefault();
+                if (fallback != null) return fallback;
+            }
+
+            if (tarifa != null) return tarifa;
+
+            throw new InvalidOperationException($"No se encontró tarifa vigente para la cancha {canchaId} en la fecha {fecha} a las {hora}.");
         }
 
         public Tarifa ObtenerTarifaVigente(int canchaId, DateOnly fecha, TimeOnly hora)
