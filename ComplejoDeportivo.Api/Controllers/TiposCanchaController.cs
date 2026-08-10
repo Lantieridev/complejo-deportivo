@@ -33,6 +33,11 @@ namespace ComplejoDeportivo.Api.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateTipoCancha([FromBody] CreateTipoCanchaDTO createDto) // <--- [FromBody]
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var tipoCancha = await _tipoCanchaService.CreateAsync(createDto);
 			// Este controlador no tiene "GetById", por lo que devolvemos Ok() en lugar de CreatedAtAction
 			return Ok(tipoCancha);

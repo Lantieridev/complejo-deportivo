@@ -152,5 +152,16 @@ namespace ComplejoDeportivo.Tests.Api.Controllers
 
             result.Should().BeOfType<BadRequestObjectResult>();
         }
+
+        [Fact]
+        public async Task TiposCanchaController_CreateTipoCancha_InvalidModel_ReturnsBadRequest()
+        {
+            var controller = new TiposCanchaController(new Mock<ITipoCanchaService>().Object);
+            controller.ModelState.AddModelError("Nombre", "Requerido");
+
+            var result = await controller.CreateTipoCancha(new CreateTipoCanchaDTO { Nombre = "X" });
+
+            result.Should().BeOfType<BadRequestObjectResult>();
+        }
     }
 }
