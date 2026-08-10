@@ -11,6 +11,7 @@ using complejoDeportivo.Services.Interfaces;
 using complejoDeportivo.Repositories;
 using complejoDeportivo.Services;
 using complejoDeportivo.Repositories.Dashboard;
+using complejoDeportivo.Exceptions;
 using Microsoft.OpenApi.Models; // <-- AÑADIDO ESTE USING
 
 var builder = WebApplication.CreateBuilder(args);
@@ -93,6 +94,10 @@ builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 
+// --- 4b. Manejo Global de Excepciones ---
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 // --- 5. Servicios de la Plantilla ---
 // Añadir soporte para DateOnly y TimeOnly en JSON
 builder.Services.AddControllers()
@@ -151,6 +156,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseCors(corsPolicyName);
 app.UseAuthentication();
