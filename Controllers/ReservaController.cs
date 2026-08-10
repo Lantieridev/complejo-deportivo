@@ -14,10 +14,10 @@ namespace complejoDeportivo.Controllers
     [Route("api/[controller]")]
     public class ReservaController : ControllerBase
     {
-        private readonly IReservaServicie _reservaService;
+        private readonly IReservaService _reservaService;
         private readonly IUsuarioRepository _usuarioRepository; // Agregado para seguridad
 
-        public ReservaController(IReservaServicie reservaService, IUsuarioRepository usuarioRepository) // Modificado
+        public ReservaController(IReservaService reservaService, IUsuarioRepository usuarioRepository) // Modificado
         {
             _reservaService = reservaService;
             _usuarioRepository = usuarioRepository; // Agregado
