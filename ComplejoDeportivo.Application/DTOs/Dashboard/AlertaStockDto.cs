@@ -21,7 +21,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
             get
             {
                 if (StockActual <= 0) return "agotado";
-                if (StockActual <= StockMinimo * 0.3) return "crÌtico";
+                if (StockActual <= StockMinimo * 0.3) return "cr√≠tico";
                 if (StockActual <= StockMinimo) return "bajo";
                 if (PorcentajeStock >= 90) return "exceso";
                 return "normal";
@@ -31,7 +31,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         public string ColorAlerta => NivelAlerta switch
         {
             "agotado" => "#DC3545",    // Rojo
-            "crÌtico" => "#FF2D00",    // Rojo intenso  
+            "cr√≠tico" => "#FF2D00",    // Rojo intenso  
             "bajo" => "#FFA500",       // Naranja
             "exceso" => "#17A2B8",     // Azul
             _ => "#2E8B57"             // Verde
@@ -39,17 +39,17 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
 
         public string IconoAlerta => NivelAlerta switch
         {
-            "agotado" => "??",
-            "crÌtico" => "??",
-            "bajo" => "??",
-            "exceso" => "??",
-            _ => "?"
+            "agotado" => "üî¥",
+            "cr√≠tico" => "üü†",
+            "bajo" => "üü°",
+            "exceso" => "üîµ",
+            _ => "üü¢"
         };
 
         public string TextoAlerta => NivelAlerta switch
         {
             "agotado" => "AGOTADO",
-            "crÌtico" => "STOCK CRÕTICO",
+            "cr√≠tico" => "STOCK CR√çTICO",
             "bajo" => "STOCK BAJO",
             "exceso" => "STOCK ALTO",
             _ => "NORMAL"
@@ -58,7 +58,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         public int DiasSinMovimiento => UltimoMovimiento.HasValue ?
             (DateTime.Now - UltimoMovimiento.Value).Days : -1;
 
-        public bool NecesitaReposicionUrgente => NivelAlerta is "agotado" or "crÌtico";
+        public bool NecesitaReposicionUrgente => NivelAlerta is "agotado" or "cr√≠tico";
         public bool NecesitaAtencion => NivelAlerta is "bajo";
 
         // Para la barra de progreso en el frontend
@@ -71,7 +71,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
             _ => "#2E8B57"
         };
 
-        // M…TODOS EST¡TICOS
+        // M√âTODOS EST√ÅTICOS
         public static List<AlertaStockDto> FiltrarPorNivel(List<AlertaStockDto> alertas, string nivel)
         {
             return alertas.Where(a => a.NivelAlerta == nivel).ToList();
@@ -94,7 +94,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
             var ordenUrgencia = new Dictionary<string, int>
             {
                 ["agotado"] = 1,
-                ["crÌtico"] = 2,
+                ["cr√≠tico"] = 2,
                 ["bajo"] = 3,
                 ["exceso"] = 4,
                 ["normal"] = 5

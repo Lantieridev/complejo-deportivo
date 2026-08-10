@@ -32,7 +32,7 @@ public partial class Cancha
     public virtual TipoSuperficie TipoSuperficie { get; set; }
 
 
-    // *** A—ADIR ESTE CONSTRUCTOR VACÕO ***
+    // *** A√ëADIR ESTE CONSTRUCTOR VAC√çO ***
     public Cancha()
     {
     }

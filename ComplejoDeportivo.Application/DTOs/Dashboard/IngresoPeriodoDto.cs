@@ -9,7 +9,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         public int CantidadClientes { get; set; }
         public decimal PromedioPorReserva => CantidadReservas > 0 ? Total / CantidadReservas : 0;
 
-        // Métodos para formatear periodos según el tipo de agrupación
+        // MÃ©todos para formatear periodos segÃºn el tipo de agrupaciÃ³n
         public static string FormatearPeriodo(DateTime fecha, string tipoAgrupacion)
         {
             return tipoAgrupacion?.ToLower() switch
@@ -28,7 +28,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
             return culture.Calendar.GetWeekOfYear(fecha, culture.DateTimeFormat.CalendarWeekRule, culture.DateTimeFormat.FirstDayOfWeek);
         }
 
-        // Método para crear datos de ejemplo
+        // MÃ©todo para crear datos de ejemplo
         public static List<IngresoPeriodoDto> CrearDatosEjemploMensual()
         {
             var random = new Random();

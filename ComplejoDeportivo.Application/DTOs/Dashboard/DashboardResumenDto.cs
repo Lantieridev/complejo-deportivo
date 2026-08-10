@@ -2,38 +2,38 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
 {
     public class DashboardResumenDto
     {
-        // M…TRICAS PRINCIPALES - HOY
+        // M√âTRICAS PRINCIPALES - HOY
         public int ReservasHoy { get; set; }
         public decimal IngresosHoy { get; set; }
         public int ClientesNuevosHoy { get; set; }
 
-        // M…TRICAS DE ESTADO
+        // M√âTRICAS DE ESTADO
         public int ReservasPendientes { get; set; }
         public int ReservasConfirmadas { get; set; }
         public int ReservasCanceladas { get; set; }
 
-        // M…TRICAS DE INVENTARIO
+        // M√âTRICAS DE INVENTARIO
         public int AlertasStock { get; set; }
         public int ProductosStockBajo { get; set; }
         public int ProductosStockCritico { get; set; }
 
-        // M…TRICAS DE INFRAESTRUCTURA
+        // M√âTRICAS DE INFRAESTRUCTURA
         public int CanchasActivas { get; set; }
         public int CanchasTotales { get; set; }
         public int AsadoresActivos { get; set; }
         public int AsadoresTotales { get; set; }
 
-        // M…TRICAS COMPARATIVAS
+        // M√âTRICAS COMPARATIVAS
         public decimal IngresosMesActual { get; set; }
         public decimal IngresosMesAnterior { get; set; }
         public int ReservasMesActual { get; set; }
         public int ReservasMesAnterior { get; set; }
 
-        // M…TRICAS DE OCUPACI”N
+        // M√âTRICAS DE OCUPACI√ìN
         public decimal OcupacionHoyPorcentaje { get; set; }
         public decimal OcupacionMesPorcentaje { get; set; }
 
-        // M…TRICAS DE CLIENTES
+        // M√âTRICAS DE CLIENTES
         public int ClientesFrecuentes { get; set; }
         public int TotalClientesRegistrados { get; set; }
 
@@ -57,15 +57,15 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         public decimal OcupacionAsadoresPorcentaje =>
             AsadoresTotales > 0 ? (AsadoresActivos / (decimal)AsadoresTotales) * 100 : 0;
 
-        // M…TODOS HELPER
+        // M√âTODOS HELPER
         public string ObtenerIconoTendenciaIngresos()
         {
-            return TendenciaIngresosPositiva ? "??" : "??";
+            return TendenciaIngresosPositiva ? "üìà" : "üìâ";
         }
 
         public string ObtenerIconoTendenciaReservas()
         {
-            return TendenciaReservasPositiva ? "??" : "??";
+            return TendenciaReservasPositiva ? "üìà" : "üìâ";
         }
 
         public string ObtenerColorAlertaStock()
@@ -91,10 +91,10 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
             if (ReservasPendientes > 0)
                 puntos.Add($"{ReservasPendientes} reservas pendientes");
 
-            return puntos.Any() ? string.Join(" ï ", puntos) : "Sin actividad hoy";
+            return puntos.Any() ? string.Join(" ‚Ä¢ ", puntos) : "Sin actividad hoy";
         }
 
-        // M…TODO PARA CREAR RESUMEN VACÕO (˙til para inicializaciÛn)
+        // M√âTODO PARA CREAR RESUMEN VAC√çO (√∫til para inicializaci√≥n)
         public static DashboardResumenDto CrearVacio(int complejoId)
         {
             return new DashboardResumenDto

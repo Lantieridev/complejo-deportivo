@@ -28,7 +28,7 @@ namespace ComplejoDeportivo.Application.Services.Implementations
 
             if (usuario == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, usuario.PasswordHash))
             {
-                 throw new UnauthorizedAccessException("Credenciales inv·lidas.");
+                 throw new UnauthorizedAccessException("Credenciales inv√°lidas.");
             }
             
             var token = GenerateJwtToken(usuario); 
@@ -55,7 +55,7 @@ namespace ComplejoDeportivo.Application.Services.Implementations
         private string GenerateJwtToken(Usuario usuario)
         {
             var jwtKey = _configuration["Jwt:Key"]// Asegurarse de que la clave no sea nula
-				?? throw new InvalidOperationException("La clave JWT no est· configurada.");
+				?? throw new InvalidOperationException("La clave JWT no est√° configurada.");
             var jwtIssuer = _configuration["Jwt:Issuer"];
             var jwtAudience = _configuration["Jwt:Audience"];
 

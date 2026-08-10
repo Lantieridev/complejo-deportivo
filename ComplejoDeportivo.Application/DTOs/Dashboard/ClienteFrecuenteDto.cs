@@ -21,7 +21,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         public decimal TicketPromedio => TotalReservas > 0 ? TotalGastado / TotalReservas : 0;
         public string TicketPromedioDisplay => $"${TicketPromedio:N0}";
 
-        // Para badges de categoría según gasto total
+        // Para badges de categorÃ­a segÃºn gasto total
         public string CategoriaCliente => TotalGastado switch
         {
             > 200000 => "VIP",
@@ -40,9 +40,9 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
 
         // Para indicador de actividad reciente
         public bool EsClienteActivo => (DateTime.Now - UltimaReserva).Days <= 30;
-        public string IconoActividad => EsClienteActivo ? "??" : "?";
+        public string IconoActividad => EsClienteActivo ? "ğŸŸ¢" : "âšª";
 
-        // MÉTODOS ESTÁTICOS ÚTILES
+        // MÃ‰TODOS ESTÃTICOS ÃšTILES
         public static List<ClienteFrecuenteDto> AplicarRanking(List<ClienteFrecuenteDto> clientes)
         {
             var ranked = clientes
@@ -59,13 +59,13 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         }
 
 
-        // Filtrar clientes activos (últimos 30 días)
+        // Filtrar clientes activos (Ãºltimos 30 dÃ­as)
         public static List<ClienteFrecuenteDto> FiltrarActivos(List<ClienteFrecuenteDto> clientes)
         {
             return clientes.Where(c => c.EsClienteActivo).ToList();
         }
 
-        // Agrupar por categoría
+        // Agrupar por categorÃ­a
         public static Dictionary<string, List<ClienteFrecuenteDto>> AgruparPorCategoria(List<ClienteFrecuenteDto> clientes)
         {
             return clientes

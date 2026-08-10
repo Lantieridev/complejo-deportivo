@@ -55,8 +55,8 @@ namespace ComplejoDeportivo.Infrastructure.Repositories
                 return false;
             }
 
-            // Considerar borrado lógico si hay dependencias (Reservas, Facturas)
-            // Por ahora, borrado físico:
+            // Considerar borrado lÃ³gico si hay dependencias (Reservas, Facturas)
+            // Por ahora, borrado fÃ­sico:
             _context.Clientes.Remove(cliente);
             await _context.SaveChangesAsync();
             return true;
@@ -64,7 +64,7 @@ namespace ComplejoDeportivo.Infrastructure.Repositories
 
         public async Task<bool> DoesDocumentoExistAsync(string? documento)
         {
-            // Si el documento no es nulo o vacío, busca si algún cliente ya lo tiene
+            // Si el documento no es nulo o vacÃ­o, busca si algÃºn cliente ya lo tiene
             if (!string.IsNullOrEmpty(documento))
             {
                 return await _context.Clientes.AnyAsync(c => c.Documento == documento);
@@ -74,7 +74,7 @@ namespace ComplejoDeportivo.Infrastructure.Repositories
 
         public async Task<bool> DoesTelefonoExistAsync(string? telefono)
         {
-            // Si el teléfono no es nulo o vacío, busca si algún cliente ya lo tiene
+            // Si el telÃ©fono no es nulo o vacÃ­o, busca si algÃºn cliente ya lo tiene
             if (!string.IsNullOrEmpty(telefono))
             {
                 return await _context.Clientes.AnyAsync(c => c.Telefono == telefono);

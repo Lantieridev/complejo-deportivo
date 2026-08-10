@@ -17,40 +17,40 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         // PROPIEDADES CALCULADAS PARA EL FRONTEND
         public string FechaDisplay => Fecha.ToString("dd/MM/yyyy");
 
-        // --- AQUÕ EST¡ LA CORRECCI”N ---
+        // --- AQU√ç EST√Å LA CORRECCI√ìN ---
         public string HorarioDisplay => $"{HoraInicio:hh\\:mm} - {HoraFin:hh\\:mm}";
 
         public string TotalDisplay => $"${Total:N0}";
-        public string DuracionDisplay => $"{(HoraFin - HoraInicio).TotalHours}h"; // Corregido a TotalHours por si son m·s de 1h
+        public string DuracionDisplay => $"{(HoraFin - HoraInicio).TotalHours}h"; // Corregido a TotalHours por si son m√°s de 1h
 
         public string EstadoColor => Estado.ToLower() switch
         {
             "pendiente" => "#FFA500",     // Naranja
             "confirmada" => "#2E8B57",    // Verde
             "en curso" => "#17A2B8",      // Azul
-            "completada" => "#6F42C1",    // P˙rpura
+            "completada" => "#6F42C1",    // P√∫rpura
             "cancelada" => "#DC3545",     // Rojo
             _ => "#6C757D"                // Gris
         };
 
         public string EstadoIcono => Estado.ToLower() switch
         {
-            "pendiente" => "?",
-            "confirmada" => "?",
-            "en curso" => "?",
-            "completada" => "??",
-            "cancelada" => "?",
-            _ => "??"
+            "pendiente" => "üü†",
+            "confirmada" => "üü¢",
+            "en curso" => "üîµ",
+            "completada" => "üü£",
+            "cancelada" => "üî¥",
+            _ => "‚ö™"
         };
 
         public bool EsHoy => Fecha.Date == DateTime.Today;
         public bool EsFutura => Fecha.Date > DateTime.Today;
         public bool EsPasada => Fecha.Date < DateTime.Today;
 
-        public string BadgeFecha => EsHoy ? "HOY" : EsFutura ? "PR”XIMA" : "PASADA";
+        public string BadgeFecha => EsHoy ? "HOY" : EsFutura ? "PR√ìXIMA" : "PASADA";
         public string ColorBadgeFecha => EsHoy ? "bg-warning" : EsFutura ? "bg-info" : "bg-secondary";
 
-        // Para indicar si est· en curso en este momento
+        // Para indicar si est√° en curso en este momento
         public bool EstaEnCurso
         {
             get
@@ -61,9 +61,9 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
             }
         }
 
-        public string IconoEnCurso => EstaEnCurso ? "?? EN CURSO" : "";
+        public string IconoEnCurso => EstaEnCurso ? "üîµ EN CURSO" : "";
 
-        // M…TODOS EST¡TICOS ⁄TILES
+        // M√âTODOS EST√ÅTICOS √öTILES
         public static List<ReservaRecienteDto> FiltrarPorEstado(List<ReservaRecienteDto> reservas, string estado)
         {
             return reservas.Where(r => r.Estado.Equals(estado, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -87,7 +87,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         }
 
 
-        // Ordenar por fecha y hora (m·s recientes primero)
+        // Ordenar por fecha y hora (m√°s recientes primero)
         public static List<ReservaRecienteDto> OrdenarPorFecha(List<ReservaRecienteDto> reservas, bool descendente = true)
         {
             return descendente

@@ -58,7 +58,7 @@ namespace ComplejoDeportivo.Api.Controllers
 			try
 			{
 				await _CanchaService.UpdateAsync(id, updateDto);
-				return NoContent(); // 204 No Content (Èxito)
+				return NoContent(); // 204 No Content (√©xito)
 			}
 			catch (NotFoundException ex)
 			{
@@ -72,7 +72,7 @@ namespace ComplejoDeportivo.Api.Controllers
 			try
 			{
 				await _CanchaService.DeleteAsync(id);
-				return NoContent(); // 204 No Content (Èxito)
+				return NoContent(); // 204 No Content (√©xito)
 			}
 			catch (NotFoundException ex)
 			{
@@ -108,7 +108,7 @@ namespace ComplejoDeportivo.Api.Controllers
 			}
 		}
         [HttpGet("complejo/{complejoId}")]
-        // No necesita [Authorize] porque ya est· a nivel de controlador
+        // No necesita [Authorize] porque ya est√° a nivel de controlador
         public async Task<ActionResult<IEnumerable<CanchaDTO>>> GetByComplejoId(int complejoId)
         {
             var canchas = await _CanchaService.GetCanchasByComplejoAsync(complejoId);

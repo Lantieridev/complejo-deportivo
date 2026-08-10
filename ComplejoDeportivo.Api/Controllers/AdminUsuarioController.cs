@@ -60,7 +60,7 @@ namespace ComplejoDeportivo.Api.Controllers
             try
             {
                 await _service.UpdateAsync(id, updateDto);
-                return NoContent(); // 204 No Content (éxito)
+                return NoContent(); // 204 No Content (Ã©xito)
             }
             catch (NotFoundException ex)
             {
@@ -74,7 +74,7 @@ namespace ComplejoDeportivo.Api.Controllers
             try
             {
                 await _service.DeleteAsync(id);
-                return NoContent(); // 204 No Content (éxito)
+                return NoContent(); // 204 No Content (Ã©xito)
             }
             catch (NotFoundException ex)
             {

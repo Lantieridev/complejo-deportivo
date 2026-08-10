@@ -54,28 +54,28 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
 
         public string IconoOcupacionCanchas => NivelOcupacionCanchas switch
         {
-            "Alta" => "??",
-            "Media" => "?",
-            "Baja" => "??",
-            _ => "??"
+            "Alta" => "🔴",
+            "Media" => "🟠",
+            "Baja" => "🟢",
+            _ => "⚪"
         };
 
         public string IconoOcupacionAsadores => NivelOcupacionAsadores switch
         {
-            "Alta" => "??",
-            "Media" => "?",
-            "Baja" => "??",
-            _ => "??"
+            "Alta" => "🔴",
+            "Media" => "🟠",
+            "Baja" => "🟢",
+            _ => "⚪"
         };
 
-        // Para gr�ficos de barras
+        // Para gráficos de barras
         public int AnchoBarraCanchas => (int)Math.Min(PorcentajeOcupacionCanchas, 100);
         public int AnchoBarraAsadores => (int)Math.Min(PorcentajeOcupacionAsadores, 100);
 
         public bool EsHorarioPico => PorcentajeOcupacionCanchas >= 70;
         public bool EsHorarioValle => PorcentajeOcupacionCanchas <= 30;
 
-        // M�TODOS EST�TICOS
+        // MÉTODOS ESTÁTICOS
         public static List<OcupacionHorarioDto> CrearFranjasHorarias()
         {
             var franjas = new List<OcupacionHorarioDto>();

@@ -20,7 +20,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         // Para la barra de progreso en el frontend
         public int AnchoBarraOcupacion => (int)Math.Min(OcupacionPorcentaje, 100);
 
-        // Para colores según la posición en el ranking
+        // Para colores segÃºn la posiciÃ³n en el ranking
         public string ColorPosicion => PosicionRanking switch
         {
             1 => "#FFD700", // Oro
@@ -29,16 +29,16 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
             _ => "#6B7280"  // Gris
         };
 
-        // Para iconos según el tipo de cancha
+        // Para iconos segÃºn el tipo de cancha
         public string IconoTipoCancha => TipoCancha.ToLower() switch
         {
-            "fútbol 5" or "futbol 5" => "?",
-            "fútbol 7" or "futbol 7" => "??",
-            "fútbol 11" or "futbol 11" => "???",
-            _ => "?"
+            "fÃºtbol 5" or "futbol 5" => "âš½",
+            "fÃºtbol 7" or "futbol 7" => "âš½",
+            "fÃºtbol 11" or "futbol 11" => "âš½",
+            _ => "ğŸŸï¸"
         };
 
-        // MÉTODOS ESTÁTICOS ÚTILES
+        // MÃ‰TODOS ESTÃTICOS ÃšTILES
         public static List<CanchaPopularDto> AplicarRanking(List<CanchaPopularDto> canchas)
         {
             var ranked = canchas

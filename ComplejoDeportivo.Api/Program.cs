@@ -11,34 +11,34 @@ using ComplejoDeportivo.Application.Repositories;
 using ComplejoDeportivo.Application.Services.Interfaces;
 using ComplejoDeportivo.Application.Services;
 using ComplejoDeportivo.Infrastructure.Repositories.Dashboard;
-using Microsoft.OpenApi.Models; // <-- A+æADIDO ESTE USING
+using Microsoft.OpenApi.Models; // <-- A+Ã¦ADIDO ESTE USING
 using ComplejoDeportivo.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. Pol+¡tica de CORS ---
+// --- 1. Pol+Â¡tica de CORS ---
 var corsPolicyName = "TPIPolicy";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: corsPolicyName,
                       policy =>
                       {
-                          // --- AQU+ì EST+ü LA CORRECCI+ôN ---
+                          // --- AQU+Ã¬ EST+Ã¼ LA CORRECCI+Ã´N ---
                           // Agregamos el puerto 5501 de tu Live Server
                           policy.WithOrigins("http://localhost:3000",
                                              "http://127.0.0.1:5500",
-                                             "http://127.0.0.1:5501") // <--- ESTA L+ìNEA ES NUEVA
+                                             "http://127.0.0.1:5501") // <--- ESTA L+Ã¬NEA ES NUEVA
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
                       });
 });
 
-// --- 2. Conexi+¦n a la Base de Datos ---
+// --- 2. Conexi+Â¦n a la Base de Datos ---
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ComplejoDeportivoContext>(options =>
     options.UseSqlServer(connectionString));
 
-// --- 3. Configuraci+¦n de Autenticaci+¦n JWT ---
+// --- 3. Configuraci+Â¦n de Autenticaci+Â¦n JWT ---
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -58,7 +58,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization();
 
-// --- 4. Inyecci+¦n de Dependencias (Registrar TODO) ---
+// --- 4. Inyecci+Â¦n de Dependencias (Registrar TODO) ---
 
 // Auth
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
@@ -95,7 +95,7 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 
 // --- 5. Servicios de la Plantilla ---
-// A+¦adir soporte para DateOnly y TimeOnly en JSON
+// A+Â¦adir soporte para DateOnly y TimeOnly en JSON
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -110,7 +110,7 @@ builder.Services.AddEndpointsApiExplorer();
 // Se reemplaza "builder.Services.AddSwaggerGen();" por este bloque:
 builder.Services.AddSwaggerGen(options =>
 {
-    // A+¦ade un t+¡tulo a tu Swagger
+    // A+Â¦ade un t+Â¡tulo a tu Swagger
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Complejo Deportivo API", Version = "v1" });
 
     // Define el esquema de seguridad (JWT Bearer)
@@ -140,7 +140,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-// --- FIN DE LA MODIFICACI+ôN ---
+// --- FIN DE LA MODIFICACI+Ã´N ---
 
 
 // --- 5.5 Global Exception Handler ---

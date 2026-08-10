@@ -9,6 +9,6 @@ namespace ComplejoDeportivo.Application.DTOs
         public required string Email { get; set; }
 
         [Required]
-        public required string Password { get; set; } // Usamos 'Password', no 'Contraseña'
+        public required string Password { get; set; } // Usamos 'Password', no 'ContraseÃ±a'
     }
 }

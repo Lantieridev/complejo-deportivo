@@ -7,10 +7,10 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         // Resumen general (KPIs / Tarjetas)
         public DashboardResumenDto? Resumen { get; set; }
 
-        // Gráfico de Ingresos
+        // GrÃ¡fico de Ingresos
         public List<IngresoPeriodoDto>? IngresosPorPeriodo { get; set; }
 
-        // Gráfico de Estados de Reserva
+        // GrÃ¡fico de Estados de Reserva
         public List<ReservaEstadoDto>? EstadosDeReservas { get; set; }
 
         // Lista de Reservas Recientes
@@ -22,7 +22,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         // Lista de Canchas Populares (como la de tu captura)
         public List<CanchaPopularDto>? CanchasPopulares { get; set; }
 
-        // Gráfico de Ocupación por Horario
+        // GrÃ¡fico de OcupaciÃ³n por Horario
         public List<OcupacionHorarioDto>? OcupacionPorHorario { get; set; }
 
         // Alertas (Ej. Stock bajo)

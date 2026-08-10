@@ -8,7 +8,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
         public string Color { get; set; } = string.Empty;
         public string Icono { get; set; } = string.Empty;
 
-        // Método para calcular colores automáticamente basado en el estado
+        // MÃ©todo para calcular colores automÃ¡ticamente basado en el estado
         public static string ObtenerColorPorEstado(string estado)
         {
             return estado.ToLower() switch
@@ -17,28 +17,28 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
                 "confirmada" or "confirmed" => "#2E8B57", // Verde
                 "cancelada" or "cancelled" => "#DC3545", // Rojo
                 "completada" or "completed" => "#17A2B8", // Azul
-                "en curso" or "in progress" => "#6F42C1", // Púrpura
+                "en curso" or "in progress" => "#6F42C1", // PÃºrpura
                 "no show" => "#6C757D", // Gris
                 _ => "#6C757D" // Gris por defecto
             };
         }
 
-        // Método para obtener iconos automáticamente
+        // MÃ©todo para obtener iconos automÃ¡ticamente
         public static string ObtenerIconoPorEstado(string estado)
         {
             return estado.ToLower() switch
             {
-                "pendiente" or "pending" => "?",
-                "confirmada" or "confirmed" => "?",
-                "cancelada" or "cancelled" => "?",
-                "completada" or "completed" => "??",
-                "en curso" or "in progress" => "?",
-                "no show" => "??",
-                _ => "??"
+                "pendiente" or "pending" => "ðŸŸ ",
+                "confirmada" or "confirmed" => "ðŸŸ¢",
+                "cancelada" or "cancelled" => "ðŸ”´",
+                "completada" or "completed" => "âœ…",
+                "en curso" or "in progress" => "ðŸ”µ",
+                "no show" => "ðŸš«",
+                _ => "âšª"
             };
         }
 
-        // Método para calcular porcentajes de una lista
+        // MÃ©todo para calcular porcentajes de una lista
         public static void CalcularPorcentajes(List<ReservaEstadoDto> estados)
         {
             if (estados == null || !estados.Any()) return;
@@ -53,7 +53,7 @@ namespace ComplejoDeportivo.Application.DTOs.Dashboard
             }
         }
 
-        // Método para crear datos de ejemplo (útil para testing)
+        // MÃ©todo para crear datos de ejemplo (Ãºtil para testing)
         public static List<ReservaEstadoDto> CrearDatosEjemplo()
         {
             var datos = new List<ReservaEstadoDto>
