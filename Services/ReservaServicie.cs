@@ -104,10 +104,15 @@ namespace complejoDeportivo.Services
                 await _repo.GuardarAsync(); 
                 await transaction.CommitAsync();
 
+                var canchasMap = (await _context.Canchas
+                    .Where(c => canchaIdsUnicas.Contains(c.CanchaId))
+                    .ToListAsync())
+                    .ToDictionary(c => c.CanchaId, c => c.Nombre);
+
                 var detallesDto = detallesParaCrear.Select(d => new DetalleReservaDTO
                 {
                     CanchaId = d.CanchaId,
-                    NombreCancha = _context.Canchas.Find(d.CanchaId)?.Nombre ?? "N/A",
+                    NombreCancha = canchasMap.TryGetValue(d.CanchaId, out var nombre) ? nombre : "N/A",
                     Subtotal = d.Subtotal,
                     CantidadHoras = d.CantidadHoras
                 }).ToList();
