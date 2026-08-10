@@ -87,7 +87,7 @@ builder.Services.AddScoped<ICanchaService, CanchaService>();
 
 // Reservas
 builder.Services.AddScoped<IReservaRepository, ReservaRepository>();
-builder.Services.AddScoped<IReservaServicie, ReservaServicie>();
+builder.Services.AddScoped<IReservaService, ReservaService>();
 
 // Dashboard
 builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();

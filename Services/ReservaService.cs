@@ -8,13 +8,13 @@ using System;
 
 namespace complejoDeportivo.Services
 {
-    public class ReservaServicie : IReservaServicie
+    public class ReservaService : IReservaService
     {
         private readonly IReservaRepository _repo;
         private readonly TimeOnly _apertura = new TimeOnly(8, 0, 0);
         private readonly TimeOnly _cierre = new TimeOnly(23, 0, 0);
 
-        public ReservaServicie(IReservaRepository repo) 
+        public ReservaService(IReservaRepository repo) 
         {
             _repo = repo;
         }

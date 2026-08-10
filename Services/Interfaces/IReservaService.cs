@@ -1,11 +1,11 @@
-﻿using complejoDeportivo.DTOs;
+using complejoDeportivo.DTOs;
 using complejoDeportivo.Models;
 using System.Threading.Tasks; 
 using System.Collections.Generic; // Agregado
 
 namespace complejoDeportivo.Services
 {
-    public interface IReservaServicie
+    public interface IReservaService
     {
         List<DisponibilidadCanchaDTO> ObtenerTurnosDisponibles(int canchaId, DateOnly fecha);
         Task<ReservaDTO> CrearReserva(CrearReservaDTO dto); 
