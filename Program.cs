@@ -12,6 +12,7 @@ using complejoDeportivo.Repositories;
 using complejoDeportivo.Services;
 using complejoDeportivo.Repositories.Dashboard;
 using Microsoft.OpenApi.Models; // <-- AÑADIDO ESTE USING
+using complejoDeportivo.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -142,10 +143,16 @@ builder.Services.AddSwaggerGen(options =>
 // --- FIN DE LA MODIFICACIÓN ---
 
 
+// --- 5.5 Global Exception Handler ---
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 // --- 6. Construir la App ---
 var app = builder.Build();
 
 // --- 7. Configurar el Pipeline de HTTP ---
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
