@@ -13,10 +13,13 @@ namespace ComplejoDeportivo.Application.DTOs
         public required string Apellido { get; set; }
 
         [EmailAddress]
+        [StringLength(150)]
         public string? Email { get; set; }
-        
+
+        [StringLength(20)]
         public string? Telefono { get; set; }
-        
+
+        [StringLength(20)]
         public string? Documento { get; set; }
     }
 }

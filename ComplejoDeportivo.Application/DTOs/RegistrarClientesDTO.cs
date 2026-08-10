@@ -8,6 +8,7 @@ namespace ComplejoDeportivo.Application.DTOs
     {
 
         [EmailAddress]
+        [StringLength(150)]
         public required string Email { get; set; }
 
         [MinLength(6)]
@@ -18,7 +19,11 @@ namespace ComplejoDeportivo.Application.DTOs
 
         [StringLength(100)]
         public required string Apellido { get; set; }
+
+        [StringLength(20)]
         public required string Telefono { get; set; }
+
+        [StringLength(20)]
         public required string Documento { get; set; }
     }
 }
