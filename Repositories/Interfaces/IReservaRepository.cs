@@ -11,6 +11,8 @@ namespace complejoDeportivo.Repositories
         Task<List<Reserva>> ObtenerReservasPorCliente(int clienteId); 
         void AgregarReserva(Reserva reserva);
         void AgregarDetalle(DetalleReserva detalle);
+        Task<Reserva> CrearReservaConDetallesAsync(Reserva reserva, List<DetalleReserva> detalles);
+        string ObtenerNombreCancha(int canchaId);
         bool ExisteReservaSuperpuesta(int canchaId, DateOnly fecha, TimeOnly inicio, TimeOnly fin);
         bool ExisteBloqueo(int canchaId, DateOnly fecha, TimeOnly inicio, TimeOnly fin);
         Tarifa ObtenerTarifaVigente(int canchaId, DateOnly fecha, TimeOnly hora); 
