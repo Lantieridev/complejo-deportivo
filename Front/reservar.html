@@ -237,7 +237,7 @@
                 const complejos = await apiFetch('/reserva/complejos', {}, false); 
                 selectComplejo.innerHTML = '<option value="">Seleccioná un complejo</option>';
                 complejos.forEach(c => {
-                    selectComplejo.innerHTML += `<option value="${c.complejoId}">${c.nombre}</option>`;
+                    selectComplejo.innerHTML += `<option value="${c.complejoId}">${escapeHtml(c.nombre)}</option>`;
                 });
             } catch (error) {
                 selectComplejo.innerHTML = `<option value="">Error al cargar</option>`;
@@ -265,7 +265,7 @@
 
                 selectCancha.innerHTML = '<option value="">Seleccioná una cancha</option>';
                 canchas.forEach(c => {
-                    selectCancha.innerHTML += `<option value="${c.canchaId}">${c.nombre}</option>`;
+                    selectCancha.innerHTML += `<option value="${c.canchaId}">${escapeHtml(c.nombre)}</option>`;
                 });
                 selectCancha.disabled = false;
             } catch (error) {
@@ -314,7 +314,7 @@
 
             } catch (error) {
                 loaderHorarios.classList.add('hidden');
-                gridHorarios.innerHTML = `<p class="text-red-500 col-span-full text-center">Error al cargar horarios: ${error.message}</p>`;
+                gridHorarios.innerHTML = `<p class="text-red-500 col-span-full text-center">Error al cargar horarios: ${escapeHtml(error.message)}</p>`;
                 gridHorarios.classList.remove('hidden');
                 console.error(error);
             }

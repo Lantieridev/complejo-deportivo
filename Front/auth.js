@@ -114,6 +114,25 @@ const AuthService = {
     }
 };
 
+/**
+ * Escapa caracteres especiales de HTML antes de interpolar un valor dentro de un
+ * template literal que se asigna a innerHTML. Sin esto, cualquier dato que salga de la
+ * API (nombre de cancha, de complejo, de empleado, mensajes de error) y contenga
+ * caracteres como < o > se interpretaría como markup real -- un Admin/Empleado que
+ * carga un nombre de cancha como "<img src=x onerror=...>" (o cualquier cuenta
+ * comprometida) ejecutaría ese script en el navegador de cualquiera que vea esa lista.
+ * @param {unknown} value
+ * @returns {string}
+ */
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+}
+
 // --- 2. COMUNICACIÓN GLOBAL CON API ---
 
 /**

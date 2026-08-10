@@ -805,11 +805,11 @@
                 const item = `
                     <li class="py-3 flex justify-between items-center">
                         <div>
-                            <p class="text-sm font-medium text-main dark:text-main">${reserva.clienteNombre} - ${reserva.canchaNombre}</p>
-                            <p class="text-sm text-secondary dark:text-secondary">${new Date(reserva.fecha).toLocaleDateString('es-AR')} (${reserva.horarioDisplay})</p>
+                            <p class="text-sm font-medium text-main dark:text-main">${escapeHtml(reserva.clienteNombre)} - ${escapeHtml(reserva.canchaNombre)}</p>
+                            <p class="text-sm text-secondary dark:text-secondary">${new Date(reserva.fecha).toLocaleDateString('es-AR')} (${escapeHtml(reserva.horarioDisplay)})</p>
                         </div>
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${estadoColorClass}">
-                            ${reserva.estado}
+                            ${escapeHtml(reserva.estado)}
                         </span>
                     </li>`;
                 listaElement.innerHTML += item;
@@ -827,8 +827,8 @@
                 const item = `
                     <li class="py-3 flex justify-between items-center">
                         <div>
-                            <p class="text-sm font-medium text-main dark:text-main">${cancha.posicionDisplay} ${cancha.nombre}</p>
-                            <p class="text-sm text-secondary dark:text-secondary">${cancha.tipoCancha}</p>
+                            <p class="text-sm font-medium text-main dark:text-main">${escapeHtml(cancha.posicionDisplay)} ${escapeHtml(cancha.nombre)}</p>
+                            <p class="text-sm text-secondary dark:text-secondary">${escapeHtml(cancha.tipoCancha)}</p>
                         </div>
                         <p class="text-sm text-main dark:text-main font-medium">${cancha.reservasCount} Reservas</p>
                     </li>`;
@@ -855,7 +855,7 @@
                 const selectTipo = document.getElementById('cancha-tipo');
                 selectTipo.innerHTML = '<option value="">Seleccione un tipo</option>';
                 tiposData.forEach(tipo => {
-                    selectTipo.innerHTML += `<option value="${tipo.tipoCanchaID}">${tipo.nombre}</option>`;
+                    selectTipo.innerHTML += `<option value="${tipo.tipoCanchaID}">${escapeHtml(tipo.nombre)}</option>`;
                 });
 
                 // 2. Poblar la tabla de canchas
@@ -867,7 +867,7 @@
                     
                     listaCanchas.innerHTML += `
                         <tr class="text-main dark:text-main">
-                            <td class="px-6 py-4 text-sm font-medium">${cancha.nombre}</td>
+                            <td class="px-6 py-4 text-sm font-medium">${escapeHtml(cancha.nombre)}</td>
                             <td class="px-6 py-4 text-sm font-semibold ${estadoClass}">${estadoTexto}</td>
                             <td class="px-6 py-4 text-sm font-medium text-center">
                                 <button 
@@ -893,7 +893,7 @@
                     listaTipos.innerHTML += `
                         <tr class="text-main dark:text-main">
                             <td class="px-6 py-4 text-sm font-medium text-secondary dark:text-secondary">${tipo.tipoCanchaID}</td>
-                            <td class="px-6 py-4 text-sm font-medium">${tipo.nombre}</td>
+                            <td class="px-6 py-4 text-sm font-medium">${escapeHtml(tipo.nombre)}</td>
                         </tr>
                     `;
                 });
@@ -1020,16 +1020,16 @@
                 data.forEach(empleado => {
                     listaElement.innerHTML += `
                         <tr class="text-main dark:text-main">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${empleado.nombre} ${empleado.apellido}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${empleado.cargo}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${empleado.email}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${empleado.telefono}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${escapeHtml(empleado.nombre)} ${escapeHtml(empleado.apellido)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(empleado.cargo)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(empleado.email)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(empleado.telefono)}</td>
                         </tr>
                     `;
                 });
             } catch (error) {
                 console.error("Error al cargar equipo:", error);
-                listaElement.innerHTML = `<tr><td colspan="4" class="text-red-500 p-4">Error al cargar equipo. ${error.message}</td></tr>`;
+                listaElement.innerHTML = `<tr><td colspan="4" class="text-red-500 p-4">Error al cargar equipo. ${escapeHtml(error.message)}</td></tr>`;
                 abrirModalAlerta("Error de Carga", error.message);
             }
         }
@@ -1056,15 +1056,15 @@
                 data.forEach(complejo => {
                     listaElement.innerHTML += `
                         <tr class"text-main dark:text-main">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${complejo.nombre}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${complejo.direccion.calle} ${complejo.direccion.numero}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${complejo.direccion.ciudad}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${escapeHtml(complejo.nombre)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(complejo.direccion.calle)} ${escapeHtml(complejo.direccion.numero)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(complejo.direccion.ciudad)}</td>
                         </tr>
                     `;
                 });
             } catch (error) {
                 console.error("Error al cargar sucursales:", error);
-                listaElement.innerHTML = `<tr><td colspan="3" class="text-red-500 p-4">Error al cargar sucursales. ${error.message}</td></tr>`;
+                listaElement.innerHTML = `<tr><td colspan="3" class="text-red-500 p-4">Error al cargar sucursales. ${escapeHtml(error.message)}</td></tr>`;
             }
         }
 
