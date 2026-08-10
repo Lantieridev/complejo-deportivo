@@ -24,7 +24,11 @@ A booking system for sports facility complexes: courts, availability, multi-cour
 - **Entity Framework Core 8** (SQL Server)
 - **JWT Bearer** authentication, **BCrypt.Net** for password hashing
 - **Swashbuckle / Swagger** for API exploration
-- Layered architecture: `Controllers` → `Services` → `Repositories` → `Models`, with `DTOs` at the API boundary
+- Layered architecture split by project:
+  - `complejoDeportivo` (API / Presentation)
+  - `complejoDeportivo.Application` (application services + contracts)
+  - `complejoDeportivo.Infrastructure` (repository implementations)
+  - `complejoDeportivo.Core` (domain models, DTOs, exceptions)
 
 ## API Overview
 

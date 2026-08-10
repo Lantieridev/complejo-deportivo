@@ -7,6 +7,7 @@ using System.Text;
 using BCrypt.Net;
 using complejoDeportivo.Repositories.Interfaces;
 using complejoDeportivo.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace complejoDeportivo.Services.Implementations
 {

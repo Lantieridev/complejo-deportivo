@@ -58,12 +58,12 @@ namespace complejoDeportivo.Services
                     if (ocupadosCancha.Any(o => o.HoraInicio < fin && o.HoraFin > h))
                         throw new Exception($"Horario ocupado en cancha ID {canchaId}: {h} - {fin}");
 
-                    var tarifa = ReservaRepository.ObtenerTarifaVigenteEnMemoria(tarifasCancha, canchaId, dto.Fecha, h);
+                    var tarifa = ObtenerTarifaVigenteEnMemoria(tarifasCancha, canchaId, dto.Fecha, h);
                     subtotalCancha += tarifa.Precio;
                     h = fin;
                 }
 
-                var tarifaReferencia = ReservaRepository.ObtenerTarifaVigenteEnMemoria(tarifasCancha, canchaId, dto.Fecha, dto.HoraInicio);
+                var tarifaReferencia = ObtenerTarifaVigenteEnMemoria(tarifasCancha, canchaId, dto.Fecha, dto.HoraInicio);
                 detallesParaCrear.Add((canchaId, tarifaReferencia, (int)horas.TotalHours, subtotalCancha));
                 total += subtotalCancha;
             }
@@ -189,6 +189,41 @@ namespace complejoDeportivo.Services
         public List<HorarioLibreDTO> ObtenerHorariosDisponiblesCancha(int canchaId, DateOnly fecha)
         {
             return _repo.ObtenerHorariosDisponiblesCancha(canchaId, fecha, _apertura, _cierre);
+        }
+
+        private static Tarifa ObtenerTarifaVigenteEnMemoria(IEnumerable<Tarifa> tarifas, int canchaId, DateOnly fecha, TimeOnly hora)
+        {
+            var horaLuz = new TimeOnly(19, 0, 0);
+            bool requiereLuz = hora >= horaLuz;
+
+            var tarifa = tarifas
+                .Where(t => t.CanchaId == canchaId
+                            && t.EsActual
+                            && t.ContratoLuz == requiereLuz
+                            && t.FechaVigencia <= fecha)
+                .OrderByDescending(t => t.FechaVigencia)
+                .FirstOrDefault();
+
+            if (tarifa == null && requiereLuz)
+            {
+                tarifa = tarifas
+                    .Where(t => t.CanchaId == canchaId
+                                && t.EsActual
+                                && t.ContratoLuz == false
+                                && t.FechaVigencia <= fecha)
+                    .OrderByDescending(t => t.FechaVigencia)
+                    .FirstOrDefault();
+            }
+
+            if (tarifa == null)
+            {
+                tarifa = tarifas
+                    .Where(t => t.CanchaId == canchaId && t.FechaVigencia <= fecha)
+                    .OrderByDescending(t => t.FechaVigencia)
+                    .FirstOrDefault();
+            }
+
+            return tarifa ?? throw new InvalidOperationException($"No se encontró tarifa vigente para la cancha {canchaId} en la fecha {fecha} a las {hora}.");
         }
     }
 }
