@@ -11,6 +11,7 @@ using ComplejoDeportivo.Domain;
 using ComplejoDeportivo.Infrastructure.Persistence;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.MsSql;
@@ -66,6 +67,7 @@ namespace ComplejoDeportivo.Tests.Api
 
             _client = _factory.WithWebHostBuilder(builder =>
             {
+                builder.UseEnvironment("Testing");
                 builder.ConfigureServices(services =>
                 {
                     var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ComplejoDeportivoContext>));

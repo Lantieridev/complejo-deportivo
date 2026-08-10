@@ -172,6 +172,8 @@ namespace ComplejoDeportivo.Tests.Api
             // Borrar un Empleado que aún tiene un Usuario apuntándole viola la FK
             // Usuario.EmpleadoId; el repositorio deja que la SqlException burbujee como
             // Exception genérica, y el controller la mapea a 400 (no 404/500).
+            var token = await _fixture.GetAdminTokenAsync();
+
             var registerDto = new RegisterClienteDTO
             {
                 Email = $"emp-con-usuario-{System.Guid.NewGuid():N}@test.com",
@@ -181,11 +183,15 @@ namespace ComplejoDeportivo.Tests.Api
                 Telefono = System.Guid.NewGuid().ToString("N")[..10],
                 Documento = System.Guid.NewGuid().ToString("N")[..10]
             };
-            var registerResponse = await _fixture.Client.PostAsJsonAsync("/api/account/register-empleado", registerDto);
+            using var registerRequest = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Post, "/api/account/register-empleado")
+            {
+                Content = JsonContent.Create(registerDto)
+            };
+            registerRequest.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var registerResponse = await _fixture.Client.SendAsync(registerRequest);
             registerResponse.EnsureSuccessStatusCode();
             var usuario = await registerResponse.Content.ReadFromJsonAsync<UsuarioDTO>();
 
-            var token = await _fixture.GetAdminTokenAsync();
             using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Delete, $"/api/admin/empleados/{usuario!.EmpleadoId}");
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 

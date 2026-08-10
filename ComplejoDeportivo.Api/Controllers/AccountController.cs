@@ -3,11 +3,13 @@ using ComplejoDeportivo.Application.Services.Implementations;
 using ComplejoDeportivo.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace ComplejoDeportivo.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableRateLimiting("auth")]
     public class AccountController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
@@ -43,7 +45,7 @@ namespace ComplejoDeportivo.Api.Controllers
         }
 
         [HttpPost("register-empleado")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UsuarioDTO>> RegisterEmpleado([FromBody] RegisterClienteDTO dto)
         {
             if (!ModelState.IsValid)

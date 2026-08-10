@@ -50,6 +50,8 @@ namespace ComplejoDeportivo.Tests.Api
 
             // Reserva
             (await _fixture.Client.PostAsJsonAsync("/api/Reserva/99999/cancelar", new { })).StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            _fixture.Client.DefaultRequestHeaders.Authorization = null;
         }
 
         [Fact]
@@ -79,7 +81,11 @@ namespace ComplejoDeportivo.Tests.Api
             // Auth / Account
             (await _fixture.Client.PostAsJsonAsync("/api/auth/login", new { })).StatusCode.Should().Be(HttpStatusCode.BadRequest);
             (await _fixture.Client.PostAsJsonAsync("/api/account/register", new { })).StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            // register-empleado now requires an Admin token (fixed 2026-08-10) -- this test method
+            // is already authenticated as Admin above, so it reaches ModelState like the rest.
             (await _fixture.Client.PostAsJsonAsync("/api/account/register-empleado", new { })).StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            _fixture.Client.DefaultRequestHeaders.Authorization = null;
         }
     }
 }

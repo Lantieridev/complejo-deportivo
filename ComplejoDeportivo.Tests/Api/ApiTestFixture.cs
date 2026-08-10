@@ -9,6 +9,7 @@ using ComplejoDeportivo.Application.DTOs;
 using ComplejoDeportivo.Domain;
 using ComplejoDeportivo.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.MsSql;
@@ -43,6 +44,10 @@ namespace ComplejoDeportivo.Tests.Api
             Factory = new WebApplicationFactory<Program>();
             Client = Factory.WithWebHostBuilder(builder =>
             {
+                // Explicit, not relied-on-by-default: Program.cs skips the rate limiter middleware
+                // specifically when the environment is "Testing", since this fixture's helpers
+                // register/log in far more than the rate limiter would otherwise allow in one run.
+                builder.UseEnvironment("Testing");
                 builder.ConfigureServices(services =>
                 {
                     var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ComplejoDeportivoContext>));
@@ -87,37 +92,41 @@ namespace ComplejoDeportivo.Tests.Api
         
         public async Task<string> GetAdminTokenAsync()
         {
-            var registerDto = new RegisterClienteDTO
-            {
-                Email = "admin2@test.com",
-                Password = "Password123!",
-                Nombre = "Admin",
-                Apellido = "Test",
-                Telefono = "999",
-                Documento = "999"
-            };
-            await Client.PostAsJsonAsync("/api/account/register-empleado", registerDto);
+            // /api/account/register-empleado now requires an existing Admin token (see
+            // AccountController) precisely to prevent unauthenticated self-registration as staff --
+            // so bootstrapping the very first Admin for tests has to go around the HTTP API and
+            // seed the Empleado/Usuario rows directly, the same way a real deployment would via a
+            // one-time DB seed script rather than a public endpoint.
+            const string email = "admin2@test.com";
+            const string password = "Password123!";
 
-            var loginDto = new LoginRequestDTO { Email = "admin2@test.com", Password = "Password123!" };
-            var loginResponse = await Client.PostAsJsonAsync("/api/auth/login", loginDto);
-            var result = await loginResponse.Content.ReadFromJsonAsync<LoginResponseDTO>();
-            
-            // Upgrade user to Admin
             var optionsBuilder = new DbContextOptionsBuilder<ComplejoDeportivoContext>();
             optionsBuilder.UseSqlServer(ConnectionString);
-            using var context = new ComplejoDeportivoContext(optionsBuilder.Options);
-            
-            var user = await context.Usuarios.Include(u => u.Empleado).FirstOrDefaultAsync(u => u.Email == "admin2@test.com");
-            if (user != null && user.Empleado != null)
+            using (var context = new ComplejoDeportivoContext(optionsBuilder.Options))
             {
-                user.Empleado.Cargo = "Admin";
-                await context.SaveChangesAsync();
+                var existing = await context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+                if (existing == null)
+                {
+                    var empleado = new Empleado { Nombre = "Admin", Apellido = "Test", Cargo = "Admin", FechaIngreso = DateOnly.FromDateTime(DateTime.UtcNow) };
+                    context.Empleados.Add(empleado);
+                    await context.SaveChangesAsync();
+
+                    context.Usuarios.Add(new Usuario
+                    {
+                        Email = email,
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
+                        TipoUsuario = "Empleado",
+                        EmpleadoId = empleado.EmpleadoId,
+                        FechaRegistro = DateTime.UtcNow
+                    });
+                    await context.SaveChangesAsync();
+                }
             }
 
-            // Re-login to get token with Admin role
-            loginResponse = await Client.PostAsJsonAsync("/api/auth/login", loginDto);
-            result = await loginResponse.Content.ReadFromJsonAsync<LoginResponseDTO>();
-            
+            var loginDto = new LoginRequestDTO { Email = email, Password = password };
+            var loginResponse = await Client.PostAsJsonAsync("/api/auth/login", loginDto);
+            var result = await loginResponse.Content.ReadFromJsonAsync<LoginResponseDTO>();
+
             return result!.Token;
         }
 

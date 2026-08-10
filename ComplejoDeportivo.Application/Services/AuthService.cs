@@ -74,7 +74,10 @@ namespace ComplejoDeportivo.Application.Services.Implementations
                 issuer: jwtIssuer,
                 audience: jwtAudience,
                 claims: claims,
-                expires: DateTime.Now.AddHours(8),
+                // UTC, not server-local time: JWT validation middleware (and any client checking
+                // "exp") compares against UTC, so a server running in a non-UTC timezone would have
+                // silently issued tokens with the wrong effective lifetime.
+                expires: DateTime.UtcNow.AddHours(8),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
