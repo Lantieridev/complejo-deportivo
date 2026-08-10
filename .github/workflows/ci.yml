@@ -21,3 +21,9 @@ jobs:
       # ubuntu-latest runners) and enforces the coverage Threshold set in
       # ComplejoDeportivo.Tests.csproj — a coverage regression fails the build.
       - run: dotnet test --no-build --configuration Release
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ComplejoDeportivo.Tests/coverage.json
+          retention-days: 14

@@ -276,7 +276,7 @@ namespace ComplejoDeportivo.Tests.Infrastructure.Repositories
         }
 
         [Fact]
-        public async Task AgregarReserva_ShouldAddToTracker()
+        public void AgregarReserva_ShouldAddToTracker()
         {
             var reserva = new Reserva { Fecha = new DateOnly(2025, 1, 1) };
             _repository.AgregarReserva(reserva);
@@ -286,7 +286,7 @@ namespace ComplejoDeportivo.Tests.Infrastructure.Repositories
         }
 
         [Fact]
-        public async Task AgregarDetalle_ShouldAddToTracker()
+        public void AgregarDetalle_ShouldAddToTracker()
         {
             var detalle = new DetalleReserva { CanchaId = 1 };
             _repository.AgregarDetalle(detalle);
