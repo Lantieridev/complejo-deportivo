@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - Complejo Deportivo</title>
+    <link rel="stylesheet" href="css/shared.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;700;800&display.swap');
@@ -16,35 +17,13 @@
             font-weight: 600;
         }
 
-        .dark-input {
-            background-color: #1F2937;
-            border-color: #374151;
-            color: #F9FAFB;
-        }
-        .dark-input:focus {
-            border-color: #059669;
-            --tw-ring-color: #059669;
-        }
-        .dark-input:read-only {
-            background-color: #374151;
-            cursor: not-allowed;
-            color: #9CA3AF;
-        }
-        
-        .loader {
-            border-top-color: #10B981;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
         
         .modal { transition: opacity 0.25s ease; }
         .modal-content { transition: transform 0.25s ease; }
     </style>
 </head>
 <body class="bg-gray-950 text-gray-200 flex flex-col min-h-screen">
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
     <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
         <div class="absolute left-[calc(50%-10rem)] top-20 sm:left-[calc(50%-30rem)] aspect-[1155/678] w-[72.1875rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#059669] to-[#030712] opacity-20 sm:opacity-10" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
@@ -57,36 +36,68 @@
                     <span class="text-2xl font-bold text-emerald-500">Complejo</span>
                     <span class="text-2xl font-bold text-gray-100">Deportivo</span>
                 </a>
-                <div>
-                     <a href="index.html" class="text-sm font-medium text-emerald-500 hover:text-emerald-400 transition-colors duration-200">
-                        &larr; Volver al inicio
-                    </a>
+                
+                <div class="hidden md:flex md:space-x-8">
+                    <a href="index.html" class="font-medium text-gray-400 hover:text-emerald-400 transition-colors duration-200">Inicio</a>
+                    <a href="complejos.html" class="font-medium text-gray-400 hover:text-emerald-400 transition-colors duration-200">Complejos</a>
+                    <a href="#" class="font-medium text-gray-400 hover:text-emerald-400 transition-colors duration-200">Contacto</a>
                 </div>
+
+                <div class="flex items-center space-x-4">
+                    <button id="btn-mobile-menu" class="md:hidden text-gray-300 hover:text-white p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-950" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+                        <svg class="h-6 w-6" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    
+                    <div id="auth-links-logged-out" class="hidden">
+                        <a href="login.html" id="btn-login" class="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-200">Login</a>
+                        <a href="login.html#registro" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-900 bg-emerald-100 hover:bg-emerald-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2">
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <div id="auth-links-logged-in" class="hidden relative">
+                        <button id="btn-user-menu" aria-haspopup="true" aria-expanded="false" aria-controls="user-menu-dropdown" class="flex items-center text-sm font-medium text-gray-200 hover:text-emerald-400 transition-colors duration-200">
+                            <span id="user-email-display">mi-cuenta@...</span>
+                            <svg class="ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <div id="user-menu-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                            <a href="perfil.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">Mi Perfil / Reservas</a>
+                            <button id="btn-logout" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden px-2 pt-2 pb-3 space-y-1 bg-gray-900 border-t border-gray-800">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:bg-gray-800 hover:text-white">Inicio</a>
+                <a href="complejos.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:bg-gray-800 hover:text-white">Complejos</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:bg-gray-800 hover:text-white">Contacto</a>
             </div>
         </nav>
     </header>
 
-    <main class="flex-grow container mx-auto p-4 md:p-8">
+    <main id="main-content" class="flex-grow container mx-auto p-4 md:p-8">
         <h1 class="text-3xl font-bold text-white mb-2">Mi Perfil</h1>
         <p class="text-lg text-gray-400 mb-6">Hola, <span id="user-email" class="font-medium text-gray-200">...</span></p>
 
         <div>
             <div class="border-b border-gray-700">
                 <nav class="-mb-px flex space-x-8" role="tablist">
-                    <button role="tab" aria-selected="true" id="tab-proximas" class="tab-button active whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500 transition-colors duration-200">
+                    <button role="tab" aria-selected="true" aria-controls="panel-proximas" id="tab-proximas" class="tab-button active whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Próximas Reservas
                     </button>
-                    <button role="tab" aria-selected="false" id="tab-historial" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500 transition-colors duration-200">
+                    <button role="tab" aria-selected="false" aria-controls="panel-historial" id="tab-historial" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Historial de Reservas
                     </button>
-                    <button role="tab" aria-selected="false" id="tab-datos" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500 transition-colors duration-200">
+                    <button role="tab" aria-selected="false" aria-controls="panel-datos" id="tab-datos" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-500 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Mis Datos
                     </button>
                 </nav>
             </div>
 
             <div class="mt-8">
-                <div role="tabpanel" id="panel-proximas">
+                <div role="tabpanel" id="panel-proximas" aria-labelledby="tab-proximas">
                     <div id="loader-proximas" class="text-center p-8">
                         <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-700 h-12 w-12 mx-auto"></div>
                         <p class="mt-2 text-gray-400">Cargando próximas reservas...</p>
@@ -95,7 +106,7 @@
                         </div>
                 </div>
 
-                <div role="tabpanel" id="panel-historial" class="hidden">
+                <div role="tabpanel" id="panel-historial" aria-labelledby="tab-historial" class="hidden">
                     <div id="loader-historial" class="text-center p-8">
                         <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-700 h-12 w-12 mx-auto"></div>
                         <p class="mt-2 text-gray-400">Cargando historial...</p>
@@ -104,7 +115,7 @@
                         </div>
                 </div>
 
-                <div role="tabpanel" id="panel-datos" class="hidden">
+                <div role="tabpanel" id="panel-datos" aria-labelledby="tab-datos" class="hidden">
                     <div class="max-w-xl mx-auto bg-gray-900 p-6 rounded-lg shadow-xl border border-gray-800">
                         
                         <div id="loader-perfil" class="text-center p-8">
@@ -115,7 +126,7 @@
                         <form id="form-perfil" class="hidden">
                             <div class="space-y-5">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-300">Email (Usuario)</label>
+                                    <label for="perfil-email" class="block text-sm font-medium text-gray-300">Email (Usuario)</label>
                                     <input type="email" id="perfil-email" readonly class="dark-input mt-1 block w-full rounded-md shadow-sm sm:text-sm">
                                 </div>
                                 <div>
@@ -134,7 +145,7 @@
                                     <label for="perfil-documento" class="block text-sm font-medium text-gray-300">Documento</label>
                                     <input type="text" id="perfil-documento" required class="dark-input mt-1 block w-full rounded-md shadow-sm sm:text-sm">
                                 </div>
-                                <button type="submit" id="btn-guardar-perfil" class="w-full rounded-md border border-transparent bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg hover:bg-emerald-700 transition-colors duration-300">
+                                <button type="submit" id="btn-guardar-perfil" class="w-full rounded-md border border-transparent bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-lg hover:bg-emerald-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-900">
                                     Guardar Cambios
                                 </button>
                             </div>
@@ -180,15 +191,15 @@
                 </ul>
             </div>
         </div>
-        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
             <p>&copy; 2025 Complejo Deportivo. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <div id="modal-confirmacion" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+    <div id="modal-confirmacion" role="dialog" aria-modal="true" aria-labelledby="modal-confirm-titulo" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
         <div class="modal-content bg-gray-900 rounded-lg shadow-xl w-full max-w-md p-6 border border-gray-700">
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-yellow-900">
-                <svg class="h-6 w-6 text-yellow-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <svg class="h-6 w-6 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
@@ -199,17 +210,17 @@
                 </div>
             </div>
             <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                <button type="button" id="btn-confirmar" class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 sm:col-start-2 sm:text-sm">
+                <button type="button" id="btn-confirmar" class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 sm:col-start-2 sm:text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                     Confirmar
                 </button>
-                <button type="button" id="btn-cancelar" class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-600 bg-gray-800 px-4 py-2 text-base font-medium text-gray-200 shadow-sm hover:bg-gray-700 sm:col-start-1 sm:mt-0 sm:text-sm">
+                <button type="button" id="btn-cancelar" class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-600 bg-gray-800 px-4 py-2 text-base font-medium text-gray-200 shadow-sm hover:bg-gray-700 sm:col-start-1 sm:mt-0 sm:text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                     Cerrar
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="modal-alerta" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+    <div id="modal-alerta" role="dialog" aria-modal="true" aria-labelledby="modal-alerta-titulo" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
         <div class="modal-content bg-gray-900 rounded-lg shadow-xl w-full max-w-md p-6 border border-gray-700">
             <div class="text-center">
                 <h3 class="text-lg font-medium leading-6 text-white" id="modal-alerta-titulo">Éxito</h3>
@@ -218,7 +229,7 @@
                 </div>
             </div>
             <div class="mt-5 sm:mt-6">
-                <button type="button" id="btn-alerta-ok" class="inline-flex w-full justify-center rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-emerald-700 sm:text-sm">
+                <button type="button" id="btn-alerta-ok" class="inline-flex w-full justify-center rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-emerald-700 sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                     Entendido
                 </button>
             </div>
@@ -248,15 +259,30 @@
             const panels = document.querySelectorAll('[role="tabpanel"]');
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    tabs.forEach(t => t.classList.remove('active'));
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
                     panels.forEach(p => p.classList.add('hidden'));
                     tab.classList.add('active');
-                    document.getElementById(tab.id.replace('tab-', 'panel-')).classList.remove('hidden');
+                    tab.setAttribute('aria-selected', 'true');
+                    document.getElementById(tab.getAttribute('aria-controls')).classList.remove('hidden');
                 });
             });
 
             document.getElementById('btn-cancelar').addEventListener('click', () => document.getElementById('modal-confirmacion').classList.add('hidden'));
             document.getElementById('btn-alerta-ok').addEventListener('click', () => document.getElementById('modal-alerta').classList.add('hidden'));
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (!document.getElementById('modal-confirmacion').classList.contains('hidden')) {
+                        document.getElementById('modal-confirmacion').classList.add('hidden');
+                    }
+                    if (!document.getElementById('modal-alerta').classList.contains('hidden')) {
+                        document.getElementById('modal-alerta').classList.add('hidden');
+                    }
+                }
+            });
 
             document.getElementById('lista-proximas').addEventListener('click', (event) => {
                 const cancelButton = event.target.closest('.btn-cancelar');
@@ -482,6 +508,7 @@
             }, { once: true });
             
             modal.classList.remove('hidden');
+            document.getElementById('btn-confirmar').focus();
         }
 
         function abrirModalAlerta(titulo, mensaje) {
@@ -489,7 +516,65 @@
             document.getElementById('modal-alerta-titulo').textContent = titulo;
             document.getElementById('modal-alerta-mensaje').textContent = mensaje;
             modal.classList.remove('hidden');
+            document.getElementById('btn-alerta-ok').focus();
         }
+
+        // Lógica para UI y Header (menú de usuario y mobile menu)
+        function actualizarUIporLogin() {
+            const linksLoggedOut = document.getElementById('auth-links-logged-out');
+            const linksLoggedIn = document.getElementById('auth-links-logged-in');
+            const userEmailDisplay = document.getElementById('user-email-display');
+
+            const usuario = AuthService.getUserData();
+            const esCliente = AuthService.isLoggedIn() && usuario.rol === 'Cliente';
+            
+            if (esCliente) {
+                if (linksLoggedOut) linksLoggedOut.classList.add('hidden');
+                if (linksLoggedIn) linksLoggedIn.classList.remove('hidden');
+                if (userEmailDisplay) userEmailDisplay.textContent = usuario.email;
+            } else {
+                if (linksLoggedOut) linksLoggedOut.classList.remove('hidden');
+                if (linksLoggedIn) linksLoggedIn.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            actualizarUIporLogin();
+            
+            document.getElementById('btn-logout')?.addEventListener('click', AuthService.logout);
+            
+            const btnUserMenu = document.getElementById('btn-user-menu');
+            btnUserMenu?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const dropdown = document.getElementById('user-menu-dropdown');
+                if (dropdown) {
+                    const isHidden = dropdown.classList.contains('hidden');
+                    if (isHidden) {
+                        dropdown.classList.remove('hidden');
+                        btnUserMenu.setAttribute('aria-expanded', 'true');
+                    } else {
+                        dropdown.classList.add('hidden');
+                        btnUserMenu.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+
+            const btnMobileMenu = document.getElementById('btn-mobile-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            btnMobileMenu?.addEventListener('click', () => {
+                const isExpanded = btnMobileMenu.getAttribute('aria-expanded') === 'true';
+                btnMobileMenu.setAttribute('aria-expanded', !isExpanded);
+                if (mobileMenu) mobileMenu.classList.toggle('hidden');
+            });
+
+            window.addEventListener('click', function(e) {
+                const userMenuDropdown = document.getElementById('user-menu-dropdown');
+                if (userMenuDropdown && !userMenuDropdown.contains(e.target) && (!btnUserMenu || !btnUserMenu.contains(e.target))) {
+                    userMenuDropdown.classList.add('hidden');
+                    if (btnUserMenu) btnUserMenu.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
 
     </script>
 
