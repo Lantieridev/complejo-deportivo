@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full">
 <head>
-    <meta charset="UTF-g">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Complejo Deportivo</title>
+    <link rel="stylesheet" href="css/shared.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
     </style>
 </head>
-<body class="h-full bg-gray-100 flex flex-col">
+<body class="h-full bg-gray-950 text-gray-200 flex flex-col">
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-    <header class="bg-white shadow-md sticky top-0 z-40">
+    <header class="bg-gray-900 shadow-xl sticky top-0 z-40">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <a href="index.html" class="flex-shrink-0 flex items-center">
-                    <span class="text-2xl font-bold text-blue-600">Complejo</span>
-                    <span class="text-2xl font-bold text-gray-700">Deportivo</span>
+                    <span class="text-2xl font-bold text-emerald-500">Complejo</span>
+                    <span class="text-2xl font-bold text-gray-100">Deportivo</span>
                 </a>
                 
                 <div>
-                     <a href="index.html" class="text-sm font-medium text-blue-600 hover:text-blue-500">
+                     <a href="index.html" class="text-sm font-medium text-emerald-500 hover:text-emerald-400">
                         &larr; Volver al inicio
                     </a>
                 </div>
@@ -29,36 +32,36 @@
         </nav>
     </header>
 
-    <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
+    <main id="main-content" class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full bg-gray-900 p-8 rounded-xl shadow-xl border border-gray-800 space-y-6">
             <div>
-                <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">
+                <h1 class="mt-6 text-center text-3xl md:text-4xl font-extrabold text-white uppercase tracking-tight">
                     Bienvenido
-                </h2>
-                <p class="mt-2 text-center text-sm text-gray-600">
+                </h1>
+                <p class="mt-2 text-center text-sm text-gray-400">
                     Inicia sesión o
-                    <button id="btn-toggle-register" class="font-medium text-blue-600 hover:text-blue-500">
+                    <button id="btn-toggle-register" class="font-medium text-emerald-500 hover:text-emerald-400">
                         créa una cuenta nueva
                     </button>
                 </p>
             </div>
 
             <form id="form-login" class="mt-8 space-y-6">
-                <div class="rounded-md shadow-sm -space-y-px">
+                <div class="rounded-md shadow-sm space-y-4">
                     <div>
                         <label for="login-email" class="sr-only">Email</label>
-                        <input id="login-email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Email">
+                        <input id="login-email" name="email" type="email" autocomplete="email" required class="appearance-none block w-full rounded-md dark-input sm:text-sm" placeholder="Email">
                     </div>
                     <div>
                         <label for="login-password" class="sr-only">Contraseña</label>
-                        <input id="login-password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Contraseña">
+                        <input id="login-password" name="password" type="password" autocomplete="current-password" required class="appearance-none block w-full rounded-md dark-input sm:text-sm" placeholder="Contraseña">
                     </div>
                 </div>
 
                 <div id="login-error" class="text-red-600 text-sm hidden"></div>
 
                 <div>
-                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                         Iniciar Sesión
                     </button>
                 </div>
@@ -66,19 +69,37 @@
 
             <form id="form-registro" class="mt-8 space-y-6 hidden">
                 <div class="rounded-md shadow-sm space-y-2">
-                    <input id="reg-nombre" type="text" required class="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Nombre">
-                    <input id="reg-apellido" type="text" required class="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Apellido">
-                    <input id="reg-documento" type="text" required class="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Documento (DNI)">
-                    <input id="reg-telefono" type="tel" required class="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Teléfono (ej: 351... )">
-                    <input id="reg-email" type="email" required class="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Email">
-                    <input id="reg-password" type="password" required class="appearance-none relative block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Contraseña (mín 6 caracteres)">
+                    <div>
+                        <label for="reg-nombre" class="sr-only">Nombre</label>
+                        <input id="reg-nombre" type="text" required class="appearance-none relative block w-full rounded-md dark-input sm:text-sm" placeholder="Nombre">
+                    </div>
+                    <div>
+                        <label for="reg-apellido" class="sr-only">Apellido</label>
+                        <input id="reg-apellido" type="text" required class="appearance-none relative block w-full rounded-md dark-input sm:text-sm" placeholder="Apellido">
+                    </div>
+                    <div>
+                        <label for="reg-documento" class="sr-only">Documento (DNI)</label>
+                        <input id="reg-documento" type="text" required class="appearance-none relative block w-full rounded-md dark-input sm:text-sm" placeholder="Documento (DNI)">
+                    </div>
+                    <div>
+                        <label for="reg-telefono" class="sr-only">Teléfono</label>
+                        <input id="reg-telefono" type="tel" required class="appearance-none relative block w-full rounded-md dark-input sm:text-sm" placeholder="Teléfono (ej: 351... )">
+                    </div>
+                    <div>
+                        <label for="reg-email" class="sr-only">Email</label>
+                        <input id="reg-email" type="email" required class="appearance-none relative block w-full rounded-md dark-input sm:text-sm" placeholder="Email">
+                    </div>
+                    <div>
+                        <label for="reg-password" class="sr-only">Contraseña</label>
+                        <input id="reg-password" type="password" required class="appearance-none relative block w-full rounded-md dark-input sm:text-sm" placeholder="Contraseña (mín 6 caracteres)">
+                    </div>
                 </div>
                 
                 <div id="registro-error" class="text-red-600 text-sm hidden"></div>
                 <div id="registro-exito" class="text-green-600 text-sm hidden"></div>
 
                 <div>
-                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                         Crear Cuenta
                     </button>
                 </div>
@@ -86,8 +107,41 @@
         </div>
     </main>
 
-    <footer class="bg-gray-800 text-gray-400">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+    <footer class="bg-gray-900 text-gray-400 border-t border-gray-800 py-12 mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
+            <div>
+                <h3 class="text-xl font-bold text-gray-100 mb-4">Complejo Deportivo</h3>
+                <p class="mb-4">Tu plataforma #1 para reservar canchas de fútbol. Calidad, comodidad y pasión por el deporte.</p>
+                <div class="flex space-x-4 mt-6">
+                    <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-emerald-500 transition-colors duration-200"><svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.776-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22C17.657 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg></a>
+                    <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-emerald-500 transition-colors duration-200"><svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.002 3.714.051 1.104.122 1.633.275 2.05.432.58.236.966.52 1.32.885.363.363.647.75.886 1.32.158.417.31.946.433 2.05.049.93.051 1.286.051 3.715s-.002 2.784-.051 3.714c-.122 1.104-.275 1.633-.432 2.05-.236.58-.52 0-.885 1.32-.363.363-.75.647-1.32.886-.417.158-.946.31-2.05.433-.93.049-1.286.051-3.715.051s-2.784-.002-3.714-.051c-1.104-.122-1.633-.275-2.05-.432-.58-.236-.966.52-1.32-.885-.363.363-.647-.75-.886-1.32-.158-.417-.31-.946.433 2.05-.049-.93-.051-1.286-.051-3.715s.002-2.784.051-3.714c.122-1.104.275-1.633.432 2.05.236-.58.52-.966.885-1.32.363.363.75-.647 1.32-.886.417-.158.946-.31 2.05-.433.93-.049 1.286.051 3.715-.051zM12 4.419c-2.86 0-3.25.01-4.38.06-1.07.124-1.61.277-1.95.408-.43.167-.704.37-1.002.668-.298.298-.5.572-.667 1.002-.13.34-.284.88-.408 1.95-.05.93-.06 1.32-.06 4.38s.01 3.25.06 4.38c.124 1.07.277 1.61.408 1.95.167.43.37.704.668 1.002.298.298.572.5.952.667.34.13 1.01.284 1.94.408 1.13.05 4.09.06 4.38.06s3.25-.01 4.38-.06c1.07-.124 1.61-.277 1.95-.408.43-.167.704-.37 1.002-.668.298-.298-.5-.572-.667 1.002.13-.34.284-.88.408-1.95.05-.93.06-1.32.06-4.38s-.01-3.25-.06-4.38c-.124-1.07-.277-1.61-.408-1.95-.167-.43-.37-.704-.668-1.002-.298-.298-.572-.5-.952-.667-.34-.13-1.01-.284-1.94-.408-.05-.93-.06-1.32-.06-4.38zm-1.82 7.78a3.61 3.61 0 100-7.22 3.61 3.61 0 000 7.22zM12 6.8c-2.09 0-3.8 1.71-3.8 3.8s1.71 3.8 3.8 3.8 3.8-1.71 3.8-3.8-1.71-3.8-3.8-3.8z" clip-rule="evenodd" /></svg></a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-100 mb-4">Navegación Rápida</h3>
+                <ul class="space-y-3">
+                    <li><a href="index.html" class="hover:text-emerald-500 transition-colors duration-200">Inicio</a></li>
+                    <li><a href="reservar.html" class="hover:text-emerald-500 transition-colors duration-200">Reservar Ahora</a></li>
+                    <li><a href="perfil.html" class="hover:text-emerald-500 transition-colors duration-200">Mi Perfil</a></li>
+                    <li><a href="#" class="hover:text-emerald-500 transition-colors duration-200">Preguntas Frecuentes</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-100 mb-4">Contáctanos</h3>
+                <p class="mb-2">Email: <a href="mailto:info@complejodeportivo.com" class="hover:text-emerald-500 transition-colors duration-200">info@complejodeportivo.com</a></p>
+                <p>Teléfono: <a href="tel:+541155551234" class="hover:text-emerald-500 transition-colors duration-200">+54 11 5555-1234</a></p>
+                <p class="mt-4">Dirección: Av. Siempre Viva 742, Buenos Aires, Argentina</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-100 mb-4">Información Legal</h3>
+                <ul class="space-y-3">
+                    <li><a href="#" class="hover:text-emerald-500 transition-colors duration-200">Términos y Condiciones</a></li>
+                    <li><a href="#" class="hover:text-emerald-500 transition-colors duration-200">Política de Privacidad</a></li>
+                    <li><a href="#" class="hover:text-emerald-500 transition-colors duration-200">Mapa del Sitio</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
             <p>&copy; 2025 Complejo Deportivo. Todos los derechos reservados.</p>
         </div>
     </footer>
@@ -113,7 +167,7 @@
             const formLogin = document.getElementById('form-login');
             const formRegistro = document.getElementById('form-registro');
             const btnToggle = document.getElementById('btn-toggle-register');
-            const titulo = document.querySelector('h2');
+            const titulo = document.querySelector('h1');
             const parrafo = document.querySelector('p.mt-2');
             const btnToggleSelector = '#btn-toggle-register';
 
@@ -124,14 +178,14 @@
                     formLogin.classList.remove('hidden');
                     formRegistro.classList.add('hidden');
                     titulo.textContent = 'Bienvenido';
-                    parrafo.innerHTML = 'Inicia sesión o <button id="btn-toggle-register" class="font-medium text-blue-600 hover:text-blue-500">créa una cuenta nueva</button>';
+                    parrafo.innerHTML = 'Inicia sesión o <button id="btn-toggle-register" class="font-medium text-emerald-500 hover:text-emerald-400">créa una cuenta nueva</button>';
                     document.querySelector(btnToggleSelector).addEventListener('click', toggleForms);
                 } else {
                     // Cambiar a Registro
                     formLogin.classList.add('hidden');
                     formRegistro.classList.remove('hidden');
                     titulo.textContent = 'Crear cuenta nueva';
-                    parrafo.innerHTML = '¿Ya tienes cuenta? <button id="btn-toggle-register" class="font-medium text-blue-600 hover:text-blue-500">Inicia sesión</button>';
+                    parrafo.innerHTML = '¿Ya tienes cuenta? <button id="btn-toggle-register" class="font-medium text-emerald-500 hover:text-emerald-400">Inicia sesión</button>';
                     document.querySelector(btnToggleSelector).addEventListener('click', toggleForms);
                 }
             }

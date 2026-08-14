@@ -1,4 +1,6 @@
-¡Claro! Aquí tienes una lista detallada de todos los endpoints de tu API, agrupados por funcionalidad (controlador) y explicando qué hace cada uno, quién puede usarlo y qué datos espera.
+# API Endpoints — Complejo Deportivo
+
+Referencia detallada de todos los endpoints de la API, agrupados por funcionalidad (controller), con permisos y datos esperados por cada uno.
 
 ---
 

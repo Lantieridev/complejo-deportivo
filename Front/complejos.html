@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestros Complejos - Complejo Deportivo</title>
+    <link rel="stylesheet" href="css/shared.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;700;800&display.swap');
@@ -22,15 +23,16 @@
         }
     </style>
 </head>
-<body class="bg-gray-950 text-gray-200">
+<body class="bg-gray-950 text-gray-200 flex flex-col min-h-screen">
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
     <header class="bg-gray-900 shadow-xl sticky top-0 z-40">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 flex items-center">
+                <a href="index.html" class="flex-shrink-0 flex items-center">
                     <span class="text-2xl font-bold text-emerald-500">Complejo</span>
                     <span class="text-2xl font-bold text-gray-100">Deportivo</span>
-                </div>
+                </a>
                 
                 <div class="hidden md:flex md:space-x-8">
                     <a href="index.html" class="font-medium text-gray-400 hover:text-emerald-400 transition-colors duration-200">Inicio</a>
@@ -39,19 +41,24 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button id="btn-reservar" disabled class="px-4 py-2 bg-emerald-600 text-white rounded-md text-sm font-medium shadow-custom-dark hover:bg-emerald-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors duration-200">
+                    <button id="btn-mobile-menu" class="md:hidden text-gray-300 hover:text-white p-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-950" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+                        <svg class="h-6 w-6" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <button id="btn-reservar" disabled class="px-4 py-2 bg-emerald-600 text-white rounded-md text-sm font-medium shadow-custom-dark hover:bg-emerald-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-950">
                         Reservar
                     </button>
                     
                     <div id="auth-links-logged-out" class="hidden">
                         <a href="login.html" id="btn-login" class="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-200">Login</a>
-                        <a href="login.html#registro" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-700 bg-emerald-100 hover:bg-emerald-200 transition-colors duration-200">
+                        <a href="login.html#registro" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-900 bg-emerald-100 hover:bg-emerald-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2">
                             Registrarse
                         </a>
                     </div>
 
                     <div id="auth-links-logged-in" class="hidden relative">
-                        <button id="btn-user-menu" class="flex items-center text-sm font-medium text-gray-200 hover:text-emerald-400 transition-colors duration-200">
+                        <button id="btn-user-menu" aria-haspopup="true" aria-expanded="false" aria-controls="user-menu-dropdown" class="flex items-center text-sm font-medium text-gray-200 hover:text-emerald-400 transition-colors duration-200">
                             <span id="user-email-display">mi-cuenta@...</span>
                             <svg class="ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                         </button>
@@ -62,10 +69,15 @@
                     </div>
                 </div>
             </div>
+            <div id="mobile-menu" class="hidden md:hidden px-2 pt-2 pb-3 space-y-1 bg-gray-900 border-t border-gray-800">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:bg-gray-800 hover:text-white">Inicio</a>
+                <a href="complejos.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-100 hover:bg-gray-800 hover:text-white">Complejos</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:bg-gray-800 hover:text-white">Contacto</a>
+            </div>
         </nav>
     </header>
 
-    <main class="py-20">
+    <main id="main-content" class="py-20 flex-grow">
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
             <h1 class="text-4xl md:text-5xl font-extrabold text-white uppercase">Nuestros Complejos</h1>
@@ -80,7 +92,7 @@
                 <div class="complejo-card bg-gray-900 rounded-xl shadow-2xl overflow-hidden flex flex-col">
                     <img class="h-64 w-full object-cover" src="img/carlospaz.jpg" alt="Complejo Carlos Paz">
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-bold text-white mb-2">Complejo Carlos Paz</h3>
+                        <h2 class="text-2xl font-bold text-white mb-2">Complejo Carlos Paz</h2>
                         <p class="text-emerald-400 text-sm font-medium mb-4">San Martin 1242, Villa Carlos Paz</p>
                         <p class="text-gray-300 text-sm mb-5 flex-grow">El escape perfecto para un fútbol con amigos. Disfrutá de nuestras canchas al aire libre con césped sintético profesional y vistas únicas.</p>
                         <div class="flex flex-wrap gap-2 mb-6">
@@ -88,7 +100,7 @@
                             <span class="text-xs font-medium bg-gray-800 text-emerald-300 px-3 py-1 rounded-full">Fútbol 7</span>
                             <span class="text-xs font-medium bg-gray-800 text-emerald-300 px-3 py-1 rounded-full">Césped Sintético PRO</span>
                         </div>
-                        <a href="reservar.html" class="mt-auto w-full text-center px-6 py-3 bg-emerald-600 text-white rounded-md font-semibold shadow-lg hover:bg-emerald-700 transition-colors duration-300">
+                        <a href="reservar.html" class="mt-auto w-full text-center px-6 py-3 bg-emerald-600 text-white rounded-md font-semibold shadow-lg hover:bg-emerald-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-900">
                             Reservar aquí
                         </a>
                     </div>
@@ -97,7 +109,7 @@
                 <div class="complejo-card bg-gray-900 rounded-xl shadow-2xl overflow-hidden flex flex-col">
                     <img class="h-64 w-full object-cover" src="img/villanueva.jpg" alt="Complejo Villanueva">
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-bold text-white mb-2">Complejo Villanueva</h3>
+                        <h2 class="text-2xl font-bold text-white mb-2">Complejo Villanueva</h2>
                         <p class="text-emerald-400 text-sm font-medium mb-4">Villanueva 850, Córdoba</p>
                         <p class="text-gray-300 text-sm mb-5 flex-grow">En el corazón de la ciudad. Canchas indoor y outdoor, perfectas para jugar sin importar el clima. Vení a disfrutar del mejor fútbol 5 y 9.</p>
                         <div class="flex flex-wrap gap-2 mb-6">
@@ -105,7 +117,7 @@
                             <span class="text-xs font-medium bg-gray-800 text-emerald-300 px-3 py-1 rounded-full">Fútbol 9</span>
                             <span class="text-xs font-medium bg-gray-800 text-emerald-300 px-3 py-1 rounded-full">Bar & Grill</span>
                         </div>
-                        <a href="reservar.html" class="mt-auto w-full text-center px-6 py-3 bg-emerald-600 text-white rounded-md font-semibold shadow-lg hover:bg-emerald-700 transition-colors duration-300">
+                        <a href="reservar.html" class="mt-auto w-full text-center px-6 py-3 bg-emerald-600 text-white rounded-md font-semibold shadow-lg hover:bg-emerald-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-900">
                             Reservar aquí
                         </a>
                     </div>
@@ -116,7 +128,7 @@
 
     </main>
 
-    <footer class="bg-gray-900 text-gray-400 border-t border-gray-800 py-12 mt-20">
+    <footer class="bg-gray-900 text-gray-400 border-t border-gray-800 py-12 mt-auto">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
             
             <div>
@@ -154,7 +166,7 @@
                 </ul>
             </div>
         </div>
-        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
             <p>&copy; 2025 Complejo Deportivo. Todos los derechos reservados.</p>
         </div>
     </footer>
@@ -180,13 +192,13 @@
             
             if (esCliente) {
                 // Cliente Logueado
-                linksLoggedOut.classList.add('hidden');
-                linksLoggedIn.classList.remove('hidden');
-                userEmailDisplay.textContent = usuario.email;
+                if (linksLoggedOut) linksLoggedOut.classList.add('hidden');
+                if (linksLoggedIn) linksLoggedIn.classList.remove('hidden');
+                if (userEmailDisplay) userEmailDisplay.textContent = usuario.email;
             } else {
                 // No Logueado (o Empleado)
-                linksLoggedOut.classList.remove('hidden');
-                linksLoggedIn.classList.add('hidden');
+                if (linksLoggedOut) linksLoggedOut.classList.remove('hidden');
+                if (linksLoggedIn) linksLoggedIn.classList.add('hidden');
                 
                 let title = "Debes iniciar sesión como cliente para reservar";
                 if (AuthService.isLoggedIn() && usuario.rol !== 'Cliente') {
@@ -208,16 +220,36 @@
             actualizarUIporLogin();
             
             document.getElementById('btn-logout')?.addEventListener('click', AuthService.logout);
-            document.getElementById('btn-user-menu')?.addEventListener('click', () => {
-                document.getElementById('user-menu-dropdown').classList.toggle('hidden');
+            
+            const btnUserMenu = document.getElementById('btn-user-menu');
+            btnUserMenu?.addEventListener('click', (e) => {
+                e.stopPropagation(); // Evita que el window.click se dispare
+                const dropdown = document.getElementById('user-menu-dropdown');
+                if (!dropdown) return;
+                const isHidden = dropdown.classList.contains('hidden');
+                if (isHidden) {
+                    dropdown.classList.remove('hidden');
+                    btnUserMenu.setAttribute('aria-expanded', 'true');
+                } else {
+                    dropdown.classList.add('hidden');
+                    btnUserMenu.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            const btnMobileMenu = document.getElementById('btn-mobile-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            btnMobileMenu?.addEventListener('click', () => {
+                const isExpanded = btnMobileMenu.getAttribute('aria-expanded') === 'true';
+                btnMobileMenu.setAttribute('aria-expanded', !isExpanded);
+                if (mobileMenu) mobileMenu.classList.toggle('hidden');
             });
 
             // Cerrar dropdown si se hace click fuera
             window.addEventListener('click', function(e) {
                 const userMenuDropdown = document.getElementById('user-menu-dropdown');
-                const btnUserMenu = document.getElementById('btn-user-menu');
                 if (userMenuDropdown && !userMenuDropdown.contains(e.target) && (!btnUserMenu || !btnUserMenu.contains(e.target))) {
                     userMenuDropdown.classList.add('hidden');
+                    if(btnUserMenu) btnUserMenu.setAttribute('aria-expanded', 'false');
                 }
             });
         });

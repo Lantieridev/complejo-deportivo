@@ -1,0 +1,18 @@
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: #059669; color: white; padding: 0.75rem 1.5rem; border-radius: 0 0 0.375rem 0;
+}
+.skip-link:focus { left: 0; }
+.dark-input {
+  background-color: #1F2937; border: 1px solid #374151; color: #F9FAFB;
+  border-radius: 0.375rem; padding: 0.5rem 0.75rem;
+}
+.dark-input::placeholder { color: #9CA3AF; }
+.dark-input:focus { outline: none; border-color: #059669; box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.4); }
+.dark-input:disabled { background-color: #374151; color: #6B7280; cursor: not-allowed; }
+.dark-input:read-only { background-color: #374151; color: #F3F4F6; cursor: not-allowed; }
+.loader { border-top-color: #10B981; animation: spin 1s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

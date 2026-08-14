@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Empleado - Complejo Deportivo</title>
+    <link rel="stylesheet" href="css/shared.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -71,54 +72,51 @@
         }
 
         .loader {
-            border-top-color: #3B82F6; /* blue-500 */
-            animation: spin 1s linear infinite;
+            border-top-color: #3B82F6 !important; /* override emerald to blue */
         }
         html.dark .loader {
-            border-color: #374151; /* border-gray-700 */
-            border-top-color: #3B82F6; /* blue-500 */
+            border-color: #374151; /* border-gray-700, dims the light track ring in dark mode */
+            border-top-color: #3B82F6 !important;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+
 
         .modal { transition: opacity 0.25s ease; }
         .modal-content { transition: transform 0.25s ease; }
     </style>
 </head>
 <body class="h-full bg-gray-100 text-gray-900 flex flex-col min-h-screen transition-colors duration-300">
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
     <div class="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
         <div class="absolute left-[calc(50%-10rem)] top-20 sm:left-[calc(50%-30rem)] aspect-[1155/678] w-[72.1875rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#3B82F6] to-[#111827] opacity-0 dark:opacity-20 sm:dark:opacity-10 transition-opacity duration-500" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
     </div>
 
-    <div class="container mx-auto p-4 md:p-8 flex-grow">
+    <main id="main-content" class="container mx-auto p-4 md:p-8 flex-grow">
         
         <header class="mb-6 flex flex-col md:flex-row justify-between md:items-center">
             <h1 class="text-3xl font-bold text-gray-800 text-main dark:text-main">Panel de Empleado</h1>
             <div class="mt-2 md:mt-0 text-sm text-gray-600 text-secondary dark:text-secondary">
                 Bienvenido, <span id="nombre-usuario" class="font-medium">Cargando...</span> (<span id="rol-usuario">...</span>)
-                <button id="btn-logout-empleado" class="ml-4 text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400 font-medium transition-colors duration-200">[Cerrar Sesión]</button>
+                <button id="btn-logout-empleado" class="ml-4 text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400 font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-sm">[Cerrar Sesión]</button>
             </div>
         </header>
 
         <div>
             <div class="border-b border-gray-300 border-main dark:border-main">
                 <nav class="-mb-px flex space-x-6" role="tablist">
-                    <button role="tab" aria-selected="true" id="tab-dashboard" class="tab-button active whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
+                    <button role="tab" aria-selected="true" aria-controls="panel-dashboard" id="tab-dashboard" class="tab-button active whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         Dashboard
                     </button>
-                    <button role="tab" aria-selected="false" id="tab-gestion" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
+                    <button role="tab" aria-selected="false" aria-controls="panel-gestion" id="tab-gestion" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         Gestión
                     </button>
-                    <button role="tab" aria-selected="false" id="tab-equipo" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
+                    <button role="tab" aria-selected="false" aria-controls="panel-equipo" id="tab-equipo" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         Equipo
                     </button>
-                    <button role="tab" aria-selected="false" id="tab-sucursales" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
+                    <button role="tab" aria-selected="false" aria-controls="panel-sucursales" id="tab-sucursales" class="tab-button whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         Sucursales
                     </button>
-                    <button role="tab" aria-selected="false" id="tab-kiosko" class="tab-button" title="Próximamente" disabled>
+                    <button role="tab" aria-selected="false" aria-controls="panel-kiosko" id="tab-kiosko" class="tab-button" title="Próximamente" disabled>
                         Kiosko/Stock
                     </button>
                 </nav>
@@ -126,7 +124,7 @@
 
             <div class="mt-6">
 
-                <div role="tabpanel" id="panel-dashboard">
+                <div role="tabpanel" id="panel-dashboard" aria-labelledby="tab-dashboard">
                     <div class="mb-6 card bg-white p-4 rounded-lg shadow-sm flex flex-col md:flex-row gap-4 items-center border dark:border-main">
                         <div class="flex-1">
                             <label for="filtro-complejo" class="block text-sm font-medium text-gray-700 text-secondary dark:text-secondary">Complejo</label>
@@ -144,14 +142,14 @@
                                 <option value="mes_pasado">Mes Pasado</option>
                             </select>
                         </div>
-                        <button type="button" id="btn-aplicar-filtros" class="mt-1 md:mt-6 w-full md:w-auto rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700">
+                        <button type="button" id="btn-aplicar-filtros" class="mt-1 md:mt-6 w-full md:w-auto rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                             Aplicar
                         </button>
                         
                         <div class="border-l border-gray-200 border-main dark:border-main pl-4 ml-2 mt-2 md:mt-0">
-                             <button type="button" id="btn-dark-mode" class="mt-1 md:mt-6 p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200" title="Cambiar tema">
-                                <svg id="icon-moon" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>
-                                <svg id="icon-sun" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-6.364-.386 1.591-1.591M3 12H.75m.386-6.364 1.591 1.591M12 6.75A5.25 5.25 0 0 1 17.25 12 5.25 5.25 0 0 1 12 17.25 5.25 5.25 0 0 1 6.75 12 5.25 5.25 0 0 1 12 6.75Z" /></svg>
+                             <button type="button" id="btn-dark-mode" aria-pressed="false" aria-label="Alternar modo oscuro" class="mt-1 md:mt-6 p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400" title="Cambiar tema">
+                                <svg id="icon-moon" aria-hidden="true" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>
+                                <svg id="icon-sun" aria-hidden="true" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-6.364-.386 1.591-1.591M3 12H.75m.386-6.364 1.591 1.591M12 6.75A5.25 5.25 0 0 1 17.25 12 5.25 5.25 0 0 1 12 17.25 5.25 5.25 0 0 1 6.75 12 5.25 5.25 0 0 1 12 6.75Z" /></svg>
                             </button>
                         </div>
                     </div>
@@ -199,7 +197,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card bg-blue-100 border border-blue-300 dark:bg-blue-900/30 dark:border-blue-700/50 overflow-hidden shadow rounded-lg">
+                            <div class="card bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 overflow-hidden shadow rounded-lg">
                                 <div class="p-5">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0">
@@ -250,7 +248,7 @@
                         </div>
                     </div>
                 </div>
-                <div role="tabpanel" id="panel-gestion" class="hidden">
+                <div role="tabpanel" id="panel-gestion" aria-labelledby="tab-gestion" class="hidden">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         
                         <div>
@@ -278,7 +276,7 @@
                                             <option value="2">Cemento</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700">
+                                    <button type="submit" class="w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                                         Guardar Cancha
                                     </button>
                                 </div>
@@ -310,7 +308,7 @@
                                         <label for="tipo-nombre" class="block text-sm font-medium text-gray-700 text-secondary dark:text-secondary">Nombre del Tipo</label>
                                         <input type="text" id="tipo-nombre" placeholder="Ej: Tenis (Polvo de ladrillo)" class="dark-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 sm:text-sm">
                                     </div>
-                                    <button type="submit" class="w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700">
+                                    <button type="submit" class="w-full rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                                         Guardar Tipo
                                     </button>
                                 </div>
@@ -333,7 +331,7 @@
                     </div>
                 </div>
 
-                <div role="tabpanel" id="panel-equipo" class="hidden">
+                <div role="tabpanel" id="panel-equipo" aria-labelledby="tab-equipo" class="hidden">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-lg font-semibold text-gray-700 text-main dark:text-main">Directorio de Equipo</h2>
                         <div class="w-full max-w-xs">
@@ -357,7 +355,7 @@
                     </div>
                 </div>
 
-                <div role="tabpanel" id="panel-sucursales" class="hidden">
+                <div role="tabpanel" id="panel-sucursales" aria-labelledby="tab-sucursales" class="hidden">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-lg font-semibold text-gray-700 text-main dark:text-main">Otras Sucursales</h2>
                         <div class="w-full max-w-xs">
@@ -380,18 +378,18 @@
                     </div>
                 </div>
                 
-                <div role="tabpanel" id="panel-kiosko" class="hidden">
+                <div role="tabpanel" id="panel-kiosko" aria-labelledby="tab-kiosko" class="hidden">
                     </div>
 
             </div>
         </div>
 
-    </div>
+    </main>
 
-    <div id="modal-confirmacion" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+    <div id="modal-confirmacion" role="dialog" aria-modal="true" aria-labelledby="modal-confirm-titulo" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
         <div class="modal-content card bg-white rounded-lg shadow-xl w-full max-w-md p-6 border dark:border-main">
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100 dark:bg-yellow-900/30">
-                <svg class="h-6 w-6 text-yellow-600 dark:text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <svg class="h-6 w-6 text-yellow-600 dark:text-yellow-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
@@ -402,17 +400,17 @@
                 </div>
             </div>
             <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                <button type="button" id="btn-confirmar" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 sm:col-start-2 sm:text-sm">
+                <button type="button" id="btn-confirmar" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 sm:col-start-2 sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                     Confirmar
                 </button>
-                <button type="button" id="btn-cancelar" class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-200 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 sm:col-start-1 sm:mt-0 sm:text-sm">
+                <button type="button" id="btn-cancelar" class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-base font-medium text-gray-700 dark:text-gray-200 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600 sm:col-start-1 sm:mt-0 sm:text-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                     Cancelar
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="modal-alerta" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+    <div id="modal-alerta" role="dialog" aria-modal="true" aria-labelledby="modal-alerta-titulo" class="modal hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
         <div class="modal-content card bg-white rounded-lg shadow-xl w-full max-w-md p-6 border dark:border-main">
             <div class="text-center">
                 <h3 class="text-lg font-medium leading-6 text-gray-900 text-main dark:text-main" id="modal-alerta-titulo">Éxito</h3>
@@ -421,7 +419,7 @@
                 </div>
             </div>
             <div class="mt-5 sm:mt-6">
-                <button type="button" id="btn-alerta-ok" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 sm:text-sm">
+                <button type="button" id="btn-alerta-ok" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                     Entendido
                 </button>
             </div>
@@ -482,8 +480,7 @@
                     tab.classList.add('active');
                     tab.setAttribute('aria-selected', 'true');
 
-                    const panelId = tab.id.replace('tab-', 'panel-');
-                    const panel = document.getElementById(panelId);
+                    const panel = document.getElementById(tab.getAttribute('aria-controls'));
                     if (panel) {
                         panel.classList.remove('hidden');
                     }
@@ -572,6 +569,17 @@
                 }
                 modalConfirm.classList.add('hidden');
             });
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (!modalConfirm.classList.contains('hidden')) {
+                        modalConfirm.classList.add('hidden');
+                    }
+                    if (!modalAlerta.classList.contains('hidden')) {
+                        modalAlerta.classList.add('hidden');
+                    }
+                }
+            });
         });
 
         // --- LÓGICA DE DARK MODE ---
@@ -585,10 +593,12 @@
                     document.documentElement.classList.add('dark');
                     iconMoon.classList.add('hidden');
                     iconSun.classList.remove('hidden');
+                    btnToggle.setAttribute('aria-pressed', 'true');
                 } else {
                     document.documentElement.classList.remove('dark');
                     iconMoon.classList.remove('hidden');
                     iconSun.classList.add('hidden');
+                    btnToggle.setAttribute('aria-pressed', 'false');
                 }
                 // Recargamos los gráficos para que tomen el nuevo color
                 if (document.getElementById('panel-dashboard').dataset.loaded) {
@@ -621,12 +631,14 @@
             document.getElementById('modal-confirm-mensaje').textContent = mensaje;
             modal.callback = onConfirmCallback;
             modal.classList.remove('hidden');
+            document.getElementById('btn-confirmar').focus();
         }
         function abrirModalAlerta(titulo, mensaje) {
             const modal = document.getElementById('modal-alerta');
             document.getElementById('modal-alerta-titulo').textContent = titulo;
             document.getElementById('modal-alerta-mensaje').textContent = mensaje;
             modal.classList.remove('hidden');
+            document.getElementById('btn-alerta-ok').focus();
         }
 
         async function cargarComplejosGlobal() {
@@ -805,11 +817,11 @@
                 const item = `
                     <li class="py-3 flex justify-between items-center">
                         <div>
-                            <p class="text-sm font-medium text-main dark:text-main">${reserva.clienteNombre} - ${reserva.canchaNombre}</p>
-                            <p class="text-sm text-secondary dark:text-secondary">${new Date(reserva.fecha).toLocaleDateString('es-AR')} (${reserva.horarioDisplay})</p>
+                            <p class="text-sm font-medium text-main dark:text-main">${escapeHtml(reserva.clienteNombre)} - ${escapeHtml(reserva.canchaNombre)}</p>
+                            <p class="text-sm text-secondary dark:text-secondary">${new Date(reserva.fecha).toLocaleDateString('es-AR')} (${escapeHtml(reserva.horarioDisplay)})</p>
                         </div>
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${estadoColorClass}">
-                            ${reserva.estado}
+                            ${escapeHtml(reserva.estado)}
                         </span>
                     </li>`;
                 listaElement.innerHTML += item;
@@ -827,8 +839,8 @@
                 const item = `
                     <li class="py-3 flex justify-between items-center">
                         <div>
-                            <p class="text-sm font-medium text-main dark:text-main">${cancha.posicionDisplay} ${cancha.nombre}</p>
-                            <p class="text-sm text-secondary dark:text-secondary">${cancha.tipoCancha}</p>
+                            <p class="text-sm font-medium text-main dark:text-main">${escapeHtml(cancha.posicionDisplay)} ${escapeHtml(cancha.nombre)}</p>
+                            <p class="text-sm text-secondary dark:text-secondary">${escapeHtml(cancha.tipoCancha)}</p>
                         </div>
                         <p class="text-sm text-main dark:text-main font-medium">${cancha.reservasCount} Reservas</p>
                     </li>`;
@@ -855,7 +867,7 @@
                 const selectTipo = document.getElementById('cancha-tipo');
                 selectTipo.innerHTML = '<option value="">Seleccione un tipo</option>';
                 tiposData.forEach(tipo => {
-                    selectTipo.innerHTML += `<option value="${tipo.tipoCanchaID}">${tipo.nombre}</option>`;
+                    selectTipo.innerHTML += `<option value="${tipo.tipoCanchaID}">${escapeHtml(tipo.nombre)}</option>`;
                 });
 
                 // 2. Poblar la tabla de canchas
@@ -867,17 +879,18 @@
                     
                     listaCanchas.innerHTML += `
                         <tr class="text-main dark:text-main">
-                            <td class="px-6 py-4 text-sm font-medium">${cancha.nombre}</td>
+                            <td class="px-6 py-4 text-sm font-medium">${escapeHtml(cancha.nombre)}</td>
                             <td class="px-6 py-4 text-sm font-semibold ${estadoClass}">${estadoTexto}</td>
                             <td class="px-6 py-4 text-sm font-medium text-center">
-                                <button 
-                                    type="button" 
-                                    class="btn-toggle-estado text-blue-600 hover:text-blue-900 dark:text-blue-500 dark:hover:text-blue-300 inline-block" 
+                                <button
+                                    type="button"
+                                    class="btn-toggle-estado p-2 text-blue-600 hover:text-blue-900 dark:text-blue-500 dark:hover:text-blue-300 inline-block focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-sm"
                                     title="${cancha.activa ? 'Click para Desactivar' : 'Click para Activar'}"
+                                    aria-label="${cancha.activa ? 'Desactivar cancha' : 'Activar cancha'}"
                                     data-id="${cancha.canchaId}"
                                     data-activa="${cancha.activa}"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 12l-4-4m4 4l4-4m6 0v12m0-12l4 4m-4-4l-4 4" />
                                     </svg>
                                 </button>
@@ -893,7 +906,7 @@
                     listaTipos.innerHTML += `
                         <tr class="text-main dark:text-main">
                             <td class="px-6 py-4 text-sm font-medium text-secondary dark:text-secondary">${tipo.tipoCanchaID}</td>
-                            <td class="px-6 py-4 text-sm font-medium">${tipo.nombre}</td>
+                            <td class="px-6 py-4 text-sm font-medium">${escapeHtml(tipo.nombre)}</td>
                         </tr>
                     `;
                 });
@@ -1020,16 +1033,16 @@
                 data.forEach(empleado => {
                     listaElement.innerHTML += `
                         <tr class="text-main dark:text-main">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${empleado.nombre} ${empleado.apellido}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${empleado.cargo}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${empleado.email}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${empleado.telefono}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${escapeHtml(empleado.nombre)} ${escapeHtml(empleado.apellido)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(empleado.cargo)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(empleado.email)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(empleado.telefono)}</td>
                         </tr>
                     `;
                 });
             } catch (error) {
                 console.error("Error al cargar equipo:", error);
-                listaElement.innerHTML = `<tr><td colspan="4" class="text-red-500 p-4">Error al cargar equipo. ${error.message}</td></tr>`;
+                listaElement.innerHTML = `<tr><td colspan="4" class="text-red-500 p-4">Error al cargar equipo. ${escapeHtml(error.message)}</td></tr>`;
                 abrirModalAlerta("Error de Carga", error.message);
             }
         }
@@ -1056,15 +1069,15 @@
                 data.forEach(complejo => {
                     listaElement.innerHTML += `
                         <tr class"text-main dark:text-main">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${complejo.nombre}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${complejo.direccion.calle} ${complejo.direccion.numero}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${complejo.direccion.ciudad}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">${escapeHtml(complejo.nombre)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(complejo.direccion.calle)} ${escapeHtml(complejo.direccion.numero)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-secondary dark:text-secondary">${escapeHtml(complejo.direccion.ciudad)}</td>
                         </tr>
                     `;
                 });
             } catch (error) {
                 console.error("Error al cargar sucursales:", error);
-                listaElement.innerHTML = `<tr><td colspan="3" class="text-red-500 p-4">Error al cargar sucursales. ${error.message}</td></tr>`;
+                listaElement.innerHTML = `<tr><td colspan="3" class="text-red-500 p-4">Error al cargar sucursales. ${escapeHtml(error.message)}</td></tr>`;
             }
         }
 

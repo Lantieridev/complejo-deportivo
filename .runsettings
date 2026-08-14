@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <IncludeTestAssembly>false</IncludeTestAssembly>
+          <!-- Line threshold is 99, not 100: see the Threshold comment in
+               ComplejoDeportivo.Tests.csproj for why (one provably-unreachable line
+               in AuthController.Login). Branch stays at genuine 100. -->
+          <Threshold>99,100</Threshold>
+          <ThresholdType>line,branch</ThresholdType>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
