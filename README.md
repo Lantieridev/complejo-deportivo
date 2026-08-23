@@ -3,7 +3,7 @@
 ![C#](https://img.shields.io/badge/C%23-.NET_8-purple?style=for-the-badge&logo=csharp)
 ![EF Core](https://img.shields.io/badge/EF_Core-8.0-blue?style=for-the-badge)
 ![JWT](https://img.shields.io/badge/Auth-JWT-black?style=for-the-badge&logo=jsonwebtokens)
-![Tests](https://img.shields.io/badge/Tests-457%20passing-brightgreen?style=for-the-badge)
+![Tests](https://img.shields.io/badge/Tests-458%20passing-brightgreen?style=for-the-badge)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25_branch-brightgreen?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![CI](https://img.shields.io/github/actions/workflow/status/Lantieridev/complejo-deportivo/ci.yml?branch=main&style=for-the-badge&label=CI)
@@ -32,7 +32,7 @@ flowchart LR
 | `ComplejoDeportivo.Application` | Business logic (`Services`), DTOs, repository *interfaces*. Depends only on `Domain`. |
 | `ComplejoDeportivo.Infrastructure` | EF Core `DbContext` and repository *implementations*. Depends on `Application` (for the interfaces) and `Domain`. |
 | `ComplejoDeportivo.Api` | Controllers, JWT middleware, global exception handling, DI container wiring. The only project that knows about all the others. |
-| `ComplejoDeportivo.Tests` | 457 tests: unit tests (services, DTOs, controller edge cases with mocked dependencies) + integration tests against a real SQL Server via Testcontainers, including a full end-to-end reservation flow. |
+| `ComplejoDeportivo.Tests` | 458 tests: unit tests (services, DTOs, controller edge cases with mocked dependencies) + integration tests against a real SQL Server via Testcontainers, including a full end-to-end reservation flow. |
 
 ## Features
 
@@ -40,7 +40,7 @@ flowchart LR
 - **Role-based access** — `Cliente` / `Empleado` / `Admin`, enforced per endpoint and per record (a client can only see/cancel their own reservations, validated against their JWT).
 - **JWT authentication** with BCrypt password hashing.
 - **Admin dashboard** — revenue KPIs, reservation status breakdown, top-10 courts by bookings, top-10 clients by spend, filterable by date range and complex.
-- **Full ABMC (CRUD)** for complexes, courts, court types, clients, employees, and user accounts.
+- **Full ABMC (CRUD)** for complexes, courts, clients, employees, and user accounts. Court types only expose create/read (no update or delete endpoint exists).
 
 ## Tech Stack
 
@@ -56,7 +56,7 @@ See [endpoints.md](endpoints.md) for the full endpoint reference (permissions, r
 
 | Module | Endpoints |
 |---|---|
-| Auth | `POST /api/auth/login`, `POST /api/account/register` |
+| Auth | `POST /api/auth/login`, `POST /api/account/register`, `POST /api/account/register-empleado` |
 | Reservations | `GET /api/reserva/complejos`, `GET /api/reserva/disponibilidad`, `POST /api/reserva`, `PUT /api/reserva/cancelar` |
 | Dashboard | `GET /api/dashboard` (KPIs, charts, rankings) |
 | Admin (ABMC) | Clients, employees, courts, court types, complexes, user accounts |
