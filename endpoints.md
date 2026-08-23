@@ -19,6 +19,11 @@ Estos endpoints gestionan el inicio de sesión y el registro de nuevos clientes.
 * **Descripción:** Permite a un **Cliente** nuevo registrarse. Este endpoint crea *dos* entidades: primero crea el `Cliente` (con nombre, apellido, etc.) y luego crea el `Usuario` asociado (con el email y la contraseña encriptada). Antes de crear, valida que el email, el documento y el teléfono no existan previamente.
 * **Cuerpo (Body):** `RegisterClienteDTO` (Email, Password, Nombre, Apellido, Telefono, Documento).
 
+### `POST /api/account/register-empleado`
+* **Permisos:** 🔴 **Admin**.
+* **Descripción:** Permite a un Admin dar de alta un nuevo **Empleado** con acceso al sistema. Crea la entidad `Empleado` (con `Cargo` fijo en `"Admin Temporal"`) y el `Usuario` asociado con la contraseña encriptada. Valida que el email no esté ya registrado.
+* **Cuerpo (Body):** `RegisterClienteDTO` (Email, Password, Nombre, Apellido, Telefono, Documento).
+
 ---
 
 ## 🏀 Módulo de Reservas (Principal)
@@ -82,12 +87,12 @@ Controladores: `ClienteController`, `EmpleadoController`, `CanchaController`, `T
 Estos endpoints se usan para el ABMC (CRUD) de las entidades principales.
 
 ### Gestión de Clientes (`/api/admin/clientes`)
-* **Permisos:** 🟡 **Empleado** / 🔴 **Admin**.
-* `GET /`: Obtiene la lista completa de clientes.
-* `GET /{id}`: Obtiene un cliente por ID.
-* `POST /`: Crea un nuevo cliente (sin crear usuario).
-* `PUT /{id}`: Actualiza los datos de un cliente.
-* `DELETE /{id}`: Elimina un cliente (si no tiene reservas asociadas).
+* **Permisos:** por endpoint (no todos son Empleado/Admin-only, ver detalle).
+* `GET /`: Obtiene la lista completa de clientes. 🟡 **Empleado** / 🔴 **Admin**.
+* `GET /{id}`: Obtiene un cliente por ID. 🟢 **Cualquier usuario autenticado** — si el rol es **Cliente**, solo puede consultar su propio registro (se valida el `ClienteId` contra el email del token); si pide el de otro, devuelve `403 Forbidden`.
+* `POST /`: Crea un nuevo cliente (sin crear usuario). 🟡 **Empleado** / 🔴 **Admin**.
+* `PUT /{id}`: Actualiza los datos de un cliente. 🟢 **Cualquier usuario autenticado** — misma validación de propiedad que `GET /{id}` (un Cliente solo puede editar su propio registro).
+* `DELETE /{id}`: Elimina un cliente (si no tiene reservas asociadas). 🟡 **Empleado** / 🔴 **Admin**.
 
 ### Gestión de Canchas (`/api/cancha`)
 * **Permisos:** La mayoría 🟡 **Empleado** / 🔴 **Admin**.
@@ -98,6 +103,7 @@ Estos endpoints se usan para el ABMC (CRUD) de las entidades principales.
 * `DELETE /{id}`: Elimina una cancha (Admin/Empleado).
 * `PUT /{id}/activar`: Marca una cancha como "Activa" (Admin/Empleado).
 * `PUT /{id}/desactivar`: Marca una cancha como "Inactiva" (Admin/Empleado).
+* `GET /complejo/{complejoId}`: Obtiene todas las canchas de un complejo específico (Admin/Empleado).
 
 ### Gestión de Tipos de Cancha (`/api/tiposcancha`)
 * **Permisos:** 🟡 **Empleado** / 🔴 **Admin**.
